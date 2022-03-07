@@ -10,11 +10,29 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "FakeHeight",
+"language": "GDScript",
+"path": "res://scripts/fake_height.gd"
+}, {
+"base": "Area2D",
+"class": "FakeHeightBody",
+"language": "GDScript",
+"path": "res://scripts/fake_height_body.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "FakeHeightKinematicBody",
+"language": "GDScript",
+"path": "res://scripts/fake_height_kinematic_body.gd"
+}, {
+"base": "Node",
 "class": "InteractionInterface",
 "language": "GDScript",
 "path": "res://scripts/interaction_interface.gd"
 } ]
 _global_script_class_icons={
+"FakeHeight": "",
+"FakeHeightBody": "",
+"FakeHeightKinematicBody": "",
 "InteractionInterface": ""
 }
 
