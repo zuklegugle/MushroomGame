@@ -14,7 +14,6 @@ func has_avaible_interactions():
 	else:
 		return false
 
-
 func _on_InteractionArea_area_entered(body):
 	var interaction_interface = _get_interaction_interface(body)
 	if interaction_interface:
