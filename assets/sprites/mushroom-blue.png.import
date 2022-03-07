@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/mushroom-blue.png-81dc45416e0a0db70758d6717371fb3d.stex"
+path="res://.import/mushroom-blue.png-856adc3f4c558a40e01ca8d8b1504c25.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/mushroom-blue.png"
-dest_files=[ "res://.import/mushroom-blue.png-81dc45416e0a0db70758d6717371fb3d.stex" ]
+source_file="res://assets/sprites/mushroom-blue.png"
+dest_files=[ "res://.import/mushroom-blue.png-856adc3f4c558a40e01ca8d8b1504c25.stex" ]
 
 [params]
 

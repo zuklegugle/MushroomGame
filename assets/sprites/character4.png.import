@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/smoothing.png-6b454a779e636eaa20b6c6ac618bf82a.stex"
+path="res://.import/character4.png-5aee2ff3c81512728a87081fe723d2b9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/smoothing/smoothing.png"
-dest_files=[ "res://.import/smoothing.png-6b454a779e636eaa20b6c6ac618bf82a.stex" ]
+source_file="res://assets/sprites/character4.png"
+dest_files=[ "res://.import/character4.png-5aee2ff3c81512728a87081fe723d2b9.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0
