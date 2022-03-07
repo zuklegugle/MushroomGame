@@ -1,6 +1,5 @@
-tool
 extends KinematicBody2D
-
+tool
 class_name FakeHeightKinematicBody
 
 enum Mode {
@@ -40,22 +39,18 @@ func _ready():
 	_floor_point = position.y
 	_physics_position = Vector3(position.x, 0.0 , position.y)
 	_velocity = Vector3.ZERO
-	_target_node = get_node_or_null(_target_path)
+	_target_node = get_node_or_null(self._target_path)
 
 func _process(delta):
 	if Engine.editor_hint:
-		if _target_reference:
-			_target_reference.position.y = -_height
+		if _target_node:
+			_update_target_position()
 	
 	if not Engine.editor_hint:
-		_update_target_position(_target_node)
-		
 		if _mode == Mode.Kinematic:
-			_physics_position.y = -_height
+			_update_target_position()
 			return
-		
-		_height = _physics_position.y
-		
+			
 		var gravity_force = ( _gravity_strength / _mass )
 		
 		_velocity += gravity_force * delta;
@@ -67,10 +62,8 @@ func _process(delta):
 			if !_is_grounded:
 				_is_grounded = true
 				emit_signal("hit_ground")
-				print("rock hit the ground")
 				if last_velocity.y < bounce_threshold:
 					emit_signal("grounded")
-					print("rock is grounded")
 			_velocity = Vector3(0.0, 0.0, 0.0)
 			_physics_position.y = 0
 			_floor_point = position.y
@@ -82,20 +75,19 @@ func _process(delta):
 			if _is_grounded:
 				_is_grounded = false
 				emit_signal("left_ground")
-				print("rock left the ground")
 		
+		_height = -_physics_position.y
+		_update_target_position()
 		move_and_slide(Vector2(_velocity.x, _velocity.z))
 
 # public methods
 func apply_force(vector : Vector3):
 	_velocity += (vector / _mass)
-func move(vector : Vector3):
-	_velocity = vector;
 func is_grounded():
 	return _is_grounded
 
-func _update_target_position(target : Node2D):
-	_target_node.position.y = _physics_position.y
+func _update_target_position():
+	_target_node.position.y = -_height
 
 # getters / setters
 func _set_height(value : float):
@@ -109,4 +101,4 @@ func _set_height(value : float):
 func _set_target_path(value):
 	_target_path = value
 	if Engine.editor_hint:
-		_target_reference = get_node(value)
+		_target_path = value

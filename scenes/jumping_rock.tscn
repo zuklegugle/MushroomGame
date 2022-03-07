@@ -4,13 +4,16 @@
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
 [ext_resource path="res://scripts/jumping_rock.gd" type="Script" id=3]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 6.0
+height = 16.0
 
 [node name="JumpingRock" type="KinematicBody2D"]
 script = ExtResource( 3 )
 _target_path = NodePath("Sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
