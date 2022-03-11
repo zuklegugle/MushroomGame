@@ -1,7 +1,7 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=1]
-[ext_resource path="res://assets/sprites/new-character.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/witch.png" type="Texture" id=2]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
 
 [sub_resource type="CapsuleShape2D" id=36]
@@ -19,10 +19,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"times": PoolRealArray( 0, 0.25, 0.5, 0.750001 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 1, 2, 3 ]
+"values": [ 0, 1, 2, 3 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -36,10 +36,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"times": PoolRealArray( 0, 0.25, 0.5, 0.750001 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 16, 17, 18, 19 ]
+"values": [ 12, 13, 14, 15 ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -68,15 +68,31 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333 ),
+"times": PoolRealArray( 0, 0.166667, 0.333334, 0.5, 0.666667, 0.833334 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 8, 9, 10, 11, 12, 13 ]
+"values": [ 6, 7, 8, 9, 10, 11 ]
 }
 
 [sub_resource type="Animation" id=8]
 resource_name = "Run-hold"
 loop = true
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.166667, 0.333334, 0.5, 0.666667, 0.833334 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 18, 19, 20, 21, 22, 23 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Throw"
 step = 0.0416667
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -91,27 +107,21 @@ tracks/0/keys = {
 "values": [ 24, 25, 26, 27, 28, 29 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "Throw"
-step = 0.0416667
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.142857, 0.285714, 0.428571, 0.571429, 0.714286, 0.857143 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 33, 33, 35, 36, 37, 38, 39 ]
-}
-
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Idle-hold"
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=37]
 animation = "Idle"
+
+[sub_resource type="AnimationNodeTimeScale" id=38]
+
+[sub_resource type="AnimationNodeBlendTree" id=39]
+graph_offset = Vector2( -519, 103 )
+nodes/Animation/node = SubResource( 37 )
+nodes/Animation/position = Vector2( -80, 140 )
+nodes/TimeScale/node = SubResource( 38 )
+nodes/TimeScale/position = Vector2( 120, 140 )
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
 
 [sub_resource type="AnimationNodeAnimation" id=29]
 animation = "Run-hold"
@@ -132,7 +142,7 @@ animation = "Run"
 [sub_resource type="AnimationNodeTimeScale" id=24]
 
 [sub_resource type="AnimationNodeBlendTree" id=25]
-graph_offset = Vector2( -636, 45 )
+graph_offset = Vector2( -357, 88 )
 nodes/Animation/node = SubResource( 28 )
 nodes/Animation/position = Vector2( -120, 120 )
 nodes/TimeScale/node = SubResource( 24 )
@@ -142,21 +152,7 @@ node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
 [sub_resource type="AnimationNodeAnimation" id=14]
 animation = "Throw"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
-advance_condition = "isHoldingItem"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=20]
-advance_condition = "isNotHoldingItem"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=21]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=22]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-advance_condition = "isRunning"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-advance_condition = "isNotRunning"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=32]
 advance_condition = "isRunning"
@@ -170,9 +166,23 @@ advance_condition = "isNotHoldingItem"
 [sub_resource type="AnimationNodeStateMachineTransition" id=35]
 advance_condition = "isHoldingItem"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=40]
+advance_condition = "isHoldingItem"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=41]
+advance_condition = "isNotHoldingItem"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+advance_condition = "isRunning"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=44]
+advance_condition = "isNotRunning"
+
 [sub_resource type="AnimationNodeStateMachine" id=2]
-states/Idle/node = SubResource( 11 )
-states/Idle/position = Vector2( 863, 43 )
+states/Idle/node = SubResource( 39 )
+states/Idle/position = Vector2( 877, 53 )
 states/Idle-hold/node = SubResource( 10 )
 states/Idle-hold/position = Vector2( 710, 124 )
 states/Run/node = SubResource( 25 )
@@ -181,9 +191,9 @@ states/Run-hold/node = SubResource( 31 )
 states/Run-hold/position = Vector2( 542, 213 )
 states/Throw/node = SubResource( 14 )
 states/Throw/position = Vector2( 894, 329 )
-transitions = [ "Idle", "Idle-hold", SubResource( 16 ), "Idle-hold", "Idle", SubResource( 20 ), "Idle-hold", "Throw", SubResource( 21 ), "Throw", "Idle", SubResource( 22 ), "Idle", "Run", SubResource( 26 ), "Run", "Idle", SubResource( 27 ), "Idle-hold", "Run-hold", SubResource( 32 ), "Run-hold", "Idle-hold", SubResource( 33 ), "Run-hold", "Run", SubResource( 34 ), "Run", "Run-hold", SubResource( 35 ) ]
+transitions = [ "Idle-hold", "Throw", SubResource( 21 ), "Idle-hold", "Run-hold", SubResource( 32 ), "Run-hold", "Idle-hold", SubResource( 33 ), "Run-hold", "Run", SubResource( 34 ), "Run", "Run-hold", SubResource( 35 ), "Idle", "Idle-hold", SubResource( 40 ), "Idle-hold", "Idle", SubResource( 41 ), "Throw", "Idle", SubResource( 42 ), "Idle", "Run", SubResource( 43 ), "Run", "Idle", SubResource( 44 ) ]
 start_node = "Idle"
-graph_offset = Vector2( 216, 33 )
+graph_offset = Vector2( 111, 7 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=3]
 
@@ -191,7 +201,7 @@ graph_offset = Vector2( 216, 33 )
 script = ExtResource( 3 )
 _animation_player = NodePath("AnimationPlayer")
 _animation_tree = NodePath("AnimationTree")
-speed = 150.0
+speed = 200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
@@ -201,7 +211,7 @@ shape = SubResource( 36 )
 position = Vector2( 0, -28 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-hframes = 8
+hframes = 6
 vframes = 5
 frame = 1
 
@@ -228,6 +238,7 @@ parameters/conditions/isHoldingItem = false
 parameters/conditions/isNotHoldingItem = false
 parameters/conditions/isNotRunning = false
 parameters/conditions/isRunning = false
+parameters/Idle/TimeScale/scale = 2.0
 parameters/Run/TimeScale/scale = 1.5
 parameters/Run-hold/TimeScale/scale = 1.5
 

@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends Area2D
 tool
-class_name FakeHeightKinematicBody
+class_name FakeHeightArea2D
 
 enum Mode {
 	FakePhysics,
@@ -40,6 +40,8 @@ func _ready():
 	_physics_position = Vector3(position.x, 0.0 , position.y)
 	_velocity = Vector3.ZERO
 	_target_node = get_node_or_null(self._target_path)
+	if not Engine.editor_hint:
+		self.connect("body_entered",self,"_on_body_entered")
 
 func _process(delta):
 	if Engine.editor_hint:
@@ -78,7 +80,7 @@ func _process(delta):
 		
 		_height = -_physics_position.y
 		_update_target_position()
-		move_and_slide(Vector2(_velocity.x, _velocity.z))
+		position += Vector2(_velocity.x, _velocity.z)
 
 # public methods
 func apply_force(vector : Vector3):
@@ -94,6 +96,10 @@ func _update_target_position():
 func _get_bounce_vector(_velocity : Vector3, _horizontal_bounce : float, _vertical_bounce : float, _body_mass : float) -> Vector3:
 	var _bounce_vector = (Vector3(_velocity.x * _horizontal_bounce,-(_velocity.y * _vertical_bounce), _velocity.z * _horizontal_bounce) / _body_mass)
 	return _bounce_vector
+
+func _on_body_entered(body):
+	if body is StaticBody2D:
+		_velocity = Vector2(0.0, _velocity.y)
 
 # getters / setters
 func _set_height(value : float):

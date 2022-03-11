@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/new-character.png-68ed5bea5644cf9e105ac54c480a3ab4.stex"
+path="res://.import/vfx-arcane-orb.png-013d1e644c163aa8aa4281a18235b283.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/new-character.png"
-dest_files=[ "res://.import/new-character.png-68ed5bea5644cf9e105ac54c480a3ab4.stex" ]
+source_file="res://assets/sprites/vfx-arcane-orb.png"
+dest_files=[ "res://.import/vfx-arcane-orb.png-013d1e644c163aa8aa4281a18235b283.stex" ]
 
 [params]
 

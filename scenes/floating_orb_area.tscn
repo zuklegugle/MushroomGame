@@ -1,0 +1,116 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/sprites/vfx-arcane-orb.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
+[ext_resource path="res://scripts/fake_height_area2d.gd" type="Script" id=3]
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 6.0
+height = 16.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Float"
+length = 2.0
+loop = true
+step = 0.2
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:_height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 20.0301, -0.25, 0, 0.25, 0, 23, -0.25, 0, 0.25, 0, 20.0301, -0.25, 0, 0.3, -0.0450726 ),
+"times": PoolRealArray( 0, 1, 2 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 0, 1, 2, 3, 4 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:_height")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Float"
+
+[sub_resource type="AnimationNodeTimeScale" id=9]
+
+[sub_resource type="AnimationNodeBlendTree" id=10]
+graph_offset = Vector2( -444, 111.75 )
+nodes/Animation/node = SubResource( 8 )
+nodes/Animation/position = Vector2( 40, 180 )
+nodes/TimeScale/node = SubResource( 9 )
+nodes/TimeScale/position = Vector2( 300, 180 )
+nodes/output/position = Vector2( 520, 200 )
+node_connections = [ "output", 0, "TimeScale", "TimeScale", 0, "Animation" ]
+
+[sub_resource type="AnimationNodeStateMachine" id=5]
+states/Float/node = SubResource( 10 )
+states/Float/position = Vector2( 1008, 104 )
+start_node = "Float"
+graph_offset = Vector2( 174, 36 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=6]
+
+[node name="Orb" type="Area2D"]
+script = ExtResource( 3 )
+_target_path = NodePath("Sprite")
+_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -22.9911 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -5.799 )
+hframes = 5
+
+[node name="Shadow" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+z_index = -1
+texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Float = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 5 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 6 )
+parameters/Float/TimeScale/scale = 2.0

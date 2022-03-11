@@ -9,3 +9,9 @@ self_modulate = Color( 0, 0, 0, 1 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 621, 347 )
+
+[node name="Camera2D" type="Camera2D" parent="YSort/Player"]
+position = Vector2( -621, -347 )
+anchor_mode = 0
+current = true
+smoothing_enabled = true

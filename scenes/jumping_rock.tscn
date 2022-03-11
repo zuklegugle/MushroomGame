@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/sprites/rock.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/asset-stone.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
 [ext_resource path="res://scripts/jumping_rock.gd" type="Script" id=3]
 

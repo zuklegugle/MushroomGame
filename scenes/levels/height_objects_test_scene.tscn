@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/floating_rock.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/jumping_rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/floating_orb.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/floating_orb_area.tscn" type="PackedScene" id=4]
 
 [node name="HeightObjectsTestScene" type="Node2D"]
 
@@ -13,3 +15,9 @@ position = Vector2( 525, 500 )
 [node name="JumpingRock" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 709, 499 )
 _height = 32.0
+
+[node name="Orb" parent="." instance=ExtResource( 3 )]
+position = Vector2( 832, 500 )
+
+[node name="Orb2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 611, 502 )
