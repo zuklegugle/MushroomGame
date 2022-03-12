@@ -14,10 +14,12 @@ var _movement_vector = Vector2.ZERO
 
 var _sprite : Sprite
 var _direction := false
+var _player_interaction : PlayerInteractionRange
 
 func _ready():
 	_interaction_area = get_node_or_null(_interaction_area)
 	_sprite = $Sprite
+	_player_interaction = $InteractionRange as PlayerInteractionRange
 	
 	_animation_tree["parameters/conditions/isHoldingItem"] = false
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
@@ -42,8 +44,8 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
 		_animation_tree["parameters/conditions/isHoldingItem"] = !_animation_tree["parameters/conditions/isHoldingItem"]
 		_animation_tree["parameters/conditions/isNotHoldingItem"] = !_animation_tree["parameters/conditions/isNotHoldingItem"]
-		#if _interaction_area.has_avaible_interactions():
-		#	_interaction_area.interact()
+		if _player_interaction.has_avaible_interactions():
+			_player_interaction.interact()
 	
 	if _sprite:
 		if _last_input_vector.x > 0:

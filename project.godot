@@ -23,11 +23,29 @@ _global_script_classes=[ {
 "class": "InteractionInterface",
 "language": "GDScript",
 "path": "res://scripts/interaction_interface.gd"
+}, {
+"base": "Resource",
+"class": "PlayerInteractionData",
+"language": "GDScript",
+"path": "res://scripts/player_interaction_data.gd"
+}, {
+"base": "Area2D",
+"class": "PlayerInteractionRange",
+"language": "GDScript",
+"path": "res://scripts/interaction_area.gd"
+}, {
+"base": "VBoxContainer",
+"class": "UIInteractionPopup",
+"language": "GDScript",
+"path": "res://scripts/ui_interaction_popup.gd"
 } ]
 _global_script_class_icons={
 "FakeHeightArea2D": "",
 "FakeHeightKinematicBody": "",
-"InteractionInterface": ""
+"InteractionInterface": "",
+"PlayerInteractionData": "",
+"PlayerInteractionRange": "",
+"UIInteractionPopup": ""
 }
 
 [application]
