@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/sprites/asset-stone.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
 [ext_resource path="res://scripts/floating_rock_interactable.gd" type="Script" id=3]
-[ext_resource path="res://scripts/interaction_interface.gd" type="Script" id=4]
+[ext_resource path="res://scripts/interaction/interaction_interface.gd" type="Script" id=4]
+[ext_resource path="res://data/interaction_types/Interact.tres" type="Resource" id=5]
 
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 6.0
@@ -57,7 +58,7 @@ rotation = 1.5708
 shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -29.7287 )
+position = Vector2( 0, -22.5092 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -5.799 )
@@ -79,5 +80,6 @@ parameters/playback = SubResource( 6 )
 
 [node name="InteractionInterface" type="Node" parent="."]
 script = ExtResource( 4 )
+interaction_type = ExtResource( 5 )
 
 [connection signal="interacted" from="InteractionInterface" to="." method="_on_InteractionInterface_interacted"]

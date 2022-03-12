@@ -15,11 +15,13 @@ var _movement_vector = Vector2.ZERO
 var _sprite : Sprite
 var _direction := false
 var _player_interaction : PlayerInteractionRange
+var _object_slot : ObjectSlot
 
 func _ready():
 	_interaction_area = get_node_or_null(_interaction_area)
 	_sprite = $Sprite
 	_player_interaction = $InteractionRange as PlayerInteractionRange
+	_object_slot = $ObjectSlot
 	
 	_animation_tree["parameters/conditions/isHoldingItem"] = false
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
@@ -46,6 +48,8 @@ func _input(event):
 		_animation_tree["parameters/conditions/isNotHoldingItem"] = !_animation_tree["parameters/conditions/isNotHoldingItem"]
 		if _player_interaction.has_avaible_interactions():
 			_player_interaction.interact()
+		
+		#_object_slot.create_and_equip_from_index()
 	
 	if _sprite:
 		if _last_input_vector.x > 0:
@@ -56,3 +60,11 @@ func _input(event):
 func _process(delta):
 	_movement_vector = _input_vector
 	move_and_slide(_movement_vector * speed)
+
+
+func _on_InteractionRange_interacted(callback_context : InteractionContext):
+	pass
+	#print(callback_context.type.r)
+	#match(callback_context.type.resource_name):
+	#	"Pickup":
+	#		_object_slot.create_and_equip_from_scene(callback_context.interaction_data["slotable_scene"])
