@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
 [ext_resource path="res://scripts/floating_rock_pickup.gd" type="Script" id=3]
 [ext_resource path="res://scripts/interaction/pickup_interface.gd" type="Script" id=4]
-[ext_resource path="res://scenes/objects/slotable_object.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/objects/rock_slotable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://data/interaction_types/Pickup.tres" type="Resource" id=6]
 
 [sub_resource type="CapsuleShape2D" id=4]
@@ -52,13 +52,14 @@ start_node = "Float"
 [node name="Rock" type="KinematicBody2D"]
 script = ExtResource( 3 )
 _target_path = NodePath("Sprite")
+_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -28.6106 )
+position = Vector2( 0, -31.6503 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -5.799 )

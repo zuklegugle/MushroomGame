@@ -46,8 +46,8 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_accept"):
 		_animation_tree["parameters/conditions/isHoldingItem"] = !_animation_tree["parameters/conditions/isHoldingItem"]
 		_animation_tree["parameters/conditions/isNotHoldingItem"] = !_animation_tree["parameters/conditions/isNotHoldingItem"]
-		if _player_interaction.has_avaible_interactions():
-			_player_interaction.interact()
+		
+		_player_interaction.interact()
 		
 		#_object_slot.create_and_equip_from_index()
 	

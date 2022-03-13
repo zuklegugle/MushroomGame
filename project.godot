@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "SlotableObject",
+"class": "BasicSlotableObject",
+"language": "GDScript",
+"path": "res://scripts/objects/basic_slotable_object.gd"
+}, {
 "base": "Area2D",
 "class": "FakeHeightArea2D",
 "language": "GDScript",
@@ -29,10 +34,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interaction/interaction_interface.gd"
 }, {
+"base": "Area2D",
+"class": "InteractionRange",
+"language": "GDScript",
+"path": "res://scripts/interaction/interaction_area.gd"
+}, {
 "base": "Resource",
 "class": "InteractionType",
 "language": "GDScript",
 "path": "res://scripts/data/interaction_type.gd"
+}, {
+"base": "Node2D",
+"class": "MapBase",
+"language": "GDScript",
+"path": "res://scenes/levels/map_base.gd"
 }, {
 "base": "Position2D",
 "class": "ObjectSlot",
@@ -54,15 +69,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/player_interaction_data.gd"
 }, {
-"base": "Area2D",
+"base": "InteractionRange",
 "class": "PlayerInteractionRange",
 "language": "GDScript",
-"path": "res://scripts/interaction/interaction_area.gd"
+"path": "res://scripts/interaction/player_interaction_area.gd"
+}, {
+"base": "ObjectSlot",
+"class": "PlayerObjectSlot",
+"language": "GDScript",
+"path": "res://scripts/player_object_slot.gd"
+}, {
+"base": "Node2D",
+"class": "SlotableObject",
+"language": "GDScript",
+"path": "res://scripts/objects/slotable_object.gd"
 }, {
 "base": "Resource",
 "class": "SlotableObjectsData",
 "language": "GDScript",
 "path": "res://scripts/data/slotable_objects_data.gd"
+}, {
+"base": "Resource",
+"class": "SpawnableObjects",
+"language": "GDScript",
+"path": "res://scripts/data/spawnable_objects.gd"
 }, {
 "base": "VBoxContainer",
 "class": "UIInteractionPopup",
@@ -70,17 +100,23 @@ _global_script_classes=[ {
 "path": "res://scripts/ui/ui_interaction_popup.gd"
 } ]
 _global_script_class_icons={
+"BasicSlotableObject": "",
 "FakeHeightArea2D": "",
 "FakeHeightKinematicBody": "",
 "InteractionContext": "",
 "InteractionInterface": "",
+"InteractionRange": "",
 "InteractionType": "",
+"MapBase": "",
 "ObjectSlot": "",
 "PickupInterface": "",
 "PlayerData": "",
 "PlayerInteractionData": "",
 "PlayerInteractionRange": "",
+"PlayerObjectSlot": "",
+"SlotableObject": "",
 "SlotableObjectsData": "",
+"SpawnableObjects": "",
 "UIInteractionPopup": ""
 }
 

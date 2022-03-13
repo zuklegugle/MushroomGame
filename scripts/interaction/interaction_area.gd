@@ -1,6 +1,6 @@
 extends Area2D
 
-class_name PlayerInteractionRange
+class_name InteractionRange
 
 export(Resource) var _player_interaction_data
 

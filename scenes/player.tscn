@@ -253,6 +253,8 @@ _slotable_objects = ExtResource( 6 )
 _interaction_type = ExtResource( 7 )
 
 [node name="InteractionRange" parent="." instance=ExtResource( 4 )]
+_object_slot = NodePath("../ObjectSlot")
 
+[connection signal="object_unsloted" from="ObjectSlot" to="ObjectSlot" method="_on_unsloted"]
 [connection signal="interacted" from="InteractionRange" to="." method="_on_InteractionRange_interacted"]
 [connection signal="interacted" from="InteractionRange" to="ObjectSlot" method="_on_interact_with_object"]
