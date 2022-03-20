@@ -20,5 +20,5 @@ func _create_context(node, data) -> InteractionContext:
 	context.interaction_data = data
 	return context
 
-func _on_interact(node, context) -> InteractionContext:
+func _on_interact(_node, context) -> InteractionContext:
 	return context

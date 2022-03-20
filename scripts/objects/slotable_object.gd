@@ -20,7 +20,7 @@ func get_interface() -> InteractionInterface:
 
 func interact(callback_context : InteractionContext):
 	var context = _on_interact(callback_context)
-	var interaction_valid : bool
+	var _interaction_valid : bool
 	
 	if _is_interaction_valid(callback_context.type):
 		emit_signal("interacted", context)

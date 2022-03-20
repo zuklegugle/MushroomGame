@@ -32,7 +32,7 @@ func unequip():
 	emit_signal("object_unsloted")
 	print("item removed from slot")
 
-func add_child(node, legible_unique_name=false):
+func add_child(node, _legible_unique_name=false):
 	.add_child(node)
 	emit_signal("object_sloted")
 	print("item added to slot")

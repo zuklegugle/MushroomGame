@@ -199,6 +199,13 @@ move_right={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Abstract"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Interactable"
+2d_physics/layer_4="Object"
+
 [physics]
 
 common/enable_pause_aware_picking=true
