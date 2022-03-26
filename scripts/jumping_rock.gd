@@ -1,4 +1,4 @@
-extends FakeHeightKinematicBody
+extends FakeHeightPhysicsBody
 
 onready var timer = $Timer
 
