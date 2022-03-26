@@ -14,8 +14,6 @@ var _movement_vector = Vector2.ZERO
 
 var _sprite : Sprite
 var _direction := false
-var _player_interaction : PlayerInteractionRange
-var _object_slot : ObjectSlot
 var _interactor : Interactor
 
 func _ready():
@@ -63,9 +61,6 @@ func _process(delta):
 	_movement_vector = _input_vector
 	move_and_slide(_movement_vector * speed)
 
-
-func _on_InteractionRange_interacted(callback_context : InteractionContext):
-	pass
 	#print(callback_context.type.r)
 	#match(callback_context.type.resource_name):
 	#	"Pickup":

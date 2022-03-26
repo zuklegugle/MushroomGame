@@ -1,8 +1,0 @@
-[gd_resource type="Resource" load_steps=3 format=2]
-
-[ext_resource path="res://scripts/data/spawnable_objects.gd" type="Script" id=1]
-[ext_resource path="res://scenes/floating_rock_pickup.tscn" type="PackedScene" id=2]
-
-[resource]
-script = ExtResource( 1 )
-spawnable_objects = [ ExtResource( 2 ) ]

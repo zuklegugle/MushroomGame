@@ -49,6 +49,7 @@ func _process(delta):
 	if not Engine.editor_hint:
 		if _mode == Mode.Kinematic:
 			_update_target_position()
+			move_and_slide(Vector2(_velocity.x, _velocity.z))
 			return
 			
 		var gravity_force = ( _gravity_strength / _mass )
