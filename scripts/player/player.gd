@@ -15,11 +15,13 @@ var _movement_vector = Vector2.ZERO
 var _sprite : Sprite
 var _direction := false
 var _interactor : Interactor
+var _slot : EntitySlot
 
 func _ready():
 	_interaction_area = get_node_or_null(_interaction_area)
 	_sprite = $Sprite
 	_interactor = $Interactor
+	_slot = $EntitySlot
 	#_player_interaction = $InteractionRange as PlayerInteractionRange
 	#_object_slot = $ObjectSlot
 	
@@ -47,6 +49,8 @@ func _input(event):
 		_animation_tree["parameters/conditions/isHoldingItem"] = !_animation_tree["parameters/conditions/isHoldingItem"]
 		_animation_tree["parameters/conditions/isNotHoldingItem"] = !_animation_tree["parameters/conditions/isNotHoldingItem"]
 		
+		if _slot.slotted_entity:
+			_slot.drop()
 		_interactor.interact()
 		
 		#_object_slot.create_and_equip_from_index()

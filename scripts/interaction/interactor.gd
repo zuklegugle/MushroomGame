@@ -15,7 +15,7 @@ func interact():
 	var interactable = _get_closest_interactable() as Interactable
 	if interactable:
 		interactable.interact(self)
-		emit_signal("interacted", interactable)
+		emit_signal("interacted", self, interactable)
 
 func _register_interactable(node) -> int:
 	if node:

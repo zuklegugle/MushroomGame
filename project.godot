@@ -10,6 +10,21 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node",
+"class": "AutoloadGame",
+"language": "GDScript",
+"path": "res://scripts/autoload/game.gd"
+}, {
+"base": "Resource",
+"class": "EntityObjectData",
+"language": "GDScript",
+"path": "res://scripts/data/entity_object_data.gd"
+}, {
+"base": "Position2D",
+"class": "EntitySlot",
+"language": "GDScript",
+"path": "res://scripts/entities/entity_slot.gd"
+}, {
+"base": "Node",
 "class": "FakeHeight",
 "language": "GDScript",
 "path": "res://scripts/fake_height/fake_height.gd"
@@ -49,10 +64,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/levels/map_base.gd"
 }, {
+"base": "Interactable",
+"class": "Pickup",
+"language": "GDScript",
+"path": "res://scripts/interaction/pickup.gd"
+}, {
 "base": "Reference",
 "class": "ResourceUtils",
 "language": "GDScript",
 "path": "res://scripts/utils/resource_utils.gd"
+}, {
+"base": "Node",
+"class": "Slotable",
+"language": "GDScript",
+"path": "res://scripts/interaction/slotable.gd"
+}, {
+"base": "Node2D",
+"class": "SlottedEntity",
+"language": "GDScript",
+"path": "res://scripts/entities/slotted_entity.gd"
+}, {
+"base": "SlottedEntity",
+"class": "SlottedEntityObject",
+"language": "GDScript",
+"path": "res://scripts/entities/slotted_entity_object.gd"
 }, {
 "base": "VBoxContainer",
 "class": "UIInteractionPopup",
@@ -60,6 +95,9 @@ _global_script_classes=[ {
 "path": "res://scripts/ui/ui_interaction_popup.gd"
 } ]
 _global_script_class_icons={
+"AutoloadGame": "",
+"EntityObjectData": "",
+"EntitySlot": "",
 "FakeHeight": "",
 "FakeHeightArea2D": "",
 "FakeHeightKinematicBody": "",
@@ -68,7 +106,11 @@ _global_script_class_icons={
 "Interactor": "",
 "InteractorData": "",
 "MapBase": "",
+"Pickup": "",
 "ResourceUtils": "",
+"Slotable": "",
+"SlottedEntity": "",
+"SlottedEntityObject": "",
 "UIInteractionPopup": ""
 }
 
@@ -76,6 +118,10 @@ _global_script_class_icons={
 
 config/name="MushroomGame"
 run/main_scene="res://scenes/levels/World.tscn"
+
+[autoload]
+
+Game="*res://scenes/autoload/Game.tscn"
 
 [display]
 
