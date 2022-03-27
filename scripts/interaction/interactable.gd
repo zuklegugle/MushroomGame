@@ -14,6 +14,9 @@ func interact(_node) -> Node:
 	emit_signal("interacted", _node)
 	return _on_interact(self)
 
+func get_behaviours() -> Array:
+	return get_children()
+
 func _set_target(value):
 	target = value
 	if value != null:

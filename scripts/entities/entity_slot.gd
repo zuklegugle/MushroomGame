@@ -24,14 +24,15 @@ func _exit_tree():
 		_stored_entity.free()
 
 func _on_interacted(_interactor : Interactor, interactable : Interactable):
-	var pickup = interactable as Pickup
-	if pickup:
-		var slotable = pickup.slotable as Slotable
-		var scene = slotable.slotted_scene
-		if scene:
-			_store_entity(interactable.target)
-			var new_entity = _spawn_and_slot(scene)
-			print("entity slotted", new_entity)
+	var behaviours = interactable.get_behaviours()
+	for behaviour in behaviours:
+		if behaviour is InteractableBehaviourPickup:
+			var slotable = behaviour.slotable as Slotable
+			var scene = slotable.slotted_scene
+			if scene:
+				_store_entity(interactable.target)
+				var new_entity = _spawn_and_slot(scene)
+				print("entity slotted", new_entity)
 
 func slot(entity : SlottedEntity):
 	if entity:

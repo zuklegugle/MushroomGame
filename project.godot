@@ -54,6 +54,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interaction/interactable.gd"
 }, {
+"base": "Node",
+"class": "InteractableBehaviour",
+"language": "GDScript",
+"path": "res://scripts/interaction/interactable_behaviour.gd"
+}, {
+"base": "InteractableBehaviour",
+"class": "InteractableBehaviourPickup",
+"language": "GDScript",
+"path": "res://scripts/interaction/behaviours/behaviour_pickup.gd"
+}, {
 "base": "Node2D",
 "class": "Interactor",
 "language": "GDScript",
@@ -114,6 +124,8 @@ _global_script_class_icons={
 "FakeHeightKinematicBody": "",
 "FakeHeightPhysicsBody": "",
 "Interactable": "",
+"InteractableBehaviour": "",
+"InteractableBehaviourPickup": "",
 "Interactor": "",
 "InteractorData": "",
 "MapBase": "",
