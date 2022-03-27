@@ -250,9 +250,11 @@ parameters/Run-hold/TimeScale/scale = 1.5
 [node name="EntitySlot" type="Position2D" parent="."]
 position = Vector2( 0, -52 )
 script = ExtResource( 6 )
+target = NodePath("..")
+_drop_position = NodePath("../DropPosition")
 
-[node name="DropPosition" type="Position2D" parent="EntitySlot"]
-position = Vector2( 0, 64 )
+[node name="DropPosition" type="Position2D" parent="."]
+position = Vector2( 0, 12 )
 
 [node name="Interactor" parent="." instance=ExtResource( 4 )]
 _interactor_data = ExtResource( 5 )

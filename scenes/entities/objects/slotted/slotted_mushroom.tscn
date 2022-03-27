@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/entities/slotted_entity_object.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/asset-mushroom-blue-b.png" type="Texture" id=2]
+[ext_resource path="res://data/floating_rock.tres" type="Resource" id=3]
+
+[node name="FloatingRock" type="Node2D"]
+script = ExtResource( 1 )
+_entity_object_data = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
