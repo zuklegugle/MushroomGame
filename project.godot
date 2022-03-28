@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/entity_object_data.gd"
 }, {
-"base": "Position2D",
-"class": "EntitySlot",
-"language": "GDScript",
-"path": "res://scripts/entities/entity_slot.gd"
-}, {
 "base": "Node",
 "class": "FakeHeight",
 "language": "GDScript",
@@ -58,6 +53,11 @@ _global_script_classes=[ {
 "class": "InteractableBehaviour",
 "language": "GDScript",
 "path": "res://scripts/interaction/interactable_behaviour.gd"
+}, {
+"base": "InteractableBehaviour",
+"class": "InteractableBehaviourContainer",
+"language": "GDScript",
+"path": "res://scripts/interaction/behaviours/behaviour_container.gd"
 }, {
 "base": "InteractableBehaviour",
 "class": "InteractableBehaviourPickup",
@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/entities/slotted_entity_object_container.gd"
 }, {
+"base": "Position2D",
+"class": "SlottedEntitySlot",
+"language": "GDScript",
+"path": "res://scripts/entities/entity_slot.gd"
+}, {
 "base": "VBoxContainer",
 "class": "UIInteractionPopup",
 "language": "GDScript",
@@ -118,13 +123,13 @@ _global_script_class_icons={
 "AutoloadGame": "",
 "EntityObjectContainer": "",
 "EntityObjectData": "",
-"EntitySlot": "",
 "FakeHeight": "",
 "FakeHeightArea2D": "",
 "FakeHeightKinematicBody": "",
 "FakeHeightPhysicsBody": "",
 "Interactable": "",
 "InteractableBehaviour": "",
+"InteractableBehaviourContainer": "",
 "InteractableBehaviourPickup": "",
 "Interactor": "",
 "InteractorData": "",
@@ -135,6 +140,7 @@ _global_script_class_icons={
 "SlottedEntity": "",
 "SlottedEntityObject": "",
 "SlottedEntityObjectContainer": "",
+"SlottedEntitySlot": "",
 "UIInteractionPopup": ""
 }
 

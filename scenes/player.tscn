@@ -260,6 +260,7 @@ position = Vector2( 0, 12 )
 _interactor_data = ExtResource( 5 )
 _debug = true
 
+[connection signal="interacted" from="Interactor" to="." method="_on_interacted"]
 [connection signal="interacted" from="Interactor" to="EntitySlot" method="_on_interacted"]
 
 [editable path="Interactor"]

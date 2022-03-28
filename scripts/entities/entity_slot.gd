@@ -1,6 +1,6 @@
 extends Position2D
 
-class_name EntitySlot
+class_name SlottedEntitySlot
 
 export(NodePath) onready var target = get_node_or_null(target)
 export(NodePath) onready var _drop_position = get_node_or_null(_drop_position)
@@ -24,15 +24,16 @@ func _exit_tree():
 		_stored_entity.free()
 
 func _on_interacted(_interactor : Interactor, interactable : Interactable):
-	var behaviours = interactable.get_behaviours()
-	for behaviour in behaviours:
-		if behaviour is InteractableBehaviourPickup:
-			var slotable = behaviour.slotable as Slotable
-			var scene = slotable.slotted_scene
-			if scene:
-				_store_entity(interactable.target)
-				var new_entity = _spawn_and_slot(scene)
-				print("entity slotted", new_entity)
+	pass
+#	var behaviours = interactable.get_behaviours()
+#	for behaviour in behaviours:
+#		if behaviour is InteractableBehaviourPickup:
+#			var slotable = behaviour.slotable as Slotable
+#			var scene = slotable.slotted_scene
+#			if scene:
+#				_stored_entity = _store_entity(interactable.target)
+#				var new_entity = _spawn_and_slot(scene)
+#				print("entity slotted", new_entity)
 
 func slot(entity : SlottedEntity):
 	if entity:
@@ -75,7 +76,7 @@ func drop():
 		entity.on_drop()
 
 func _store_entity(node):
-	_stored_entity = Game.deactivate(node)
+	return Game.deactivate(node)
 
 func _spawn_and_slot(scene : PackedScene) -> SlottedEntity:
 	if !slotted_entity:

@@ -12,6 +12,8 @@ signal target_removed()
 func interact(_node) -> Node:
 	print("interacted with interactable")
 	emit_signal("interacted", _node)
+	for behaviour in get_behaviours():
+		behaviour.interact(self, _node)
 	return _on_interact(self)
 
 func get_behaviours() -> Array:
