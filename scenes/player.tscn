@@ -5,7 +5,7 @@
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=3]
 [ext_resource path="res://scenes/interaction/interactor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://data/player_interactor_data.tres" type="Resource" id=5]
-[ext_resource path="res://scripts/entities/entity_slot.gd" type="Script" id=6]
+[ext_resource path="res://scripts/inventory/held_item_slot.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape2D" id=36]
 radius = 6.0
@@ -200,7 +200,7 @@ graph_offset = Vector2( 111, 7 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=3]
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 8
 script = ExtResource( 3 )
@@ -247,10 +247,9 @@ parameters/Idle/TimeScale/scale = 2.0
 parameters/Run/TimeScale/scale = 1.5
 parameters/Run-hold/TimeScale/scale = 1.5
 
-[node name="EntitySlot" type="Position2D" parent="."]
+[node name="HeldItemSlot" type="Position2D" parent="."]
 position = Vector2( 0, -52 )
 script = ExtResource( 6 )
-target = NodePath("..")
 _drop_position = NodePath("../DropPosition")
 
 [node name="DropPosition" type="Position2D" parent="."]
@@ -260,7 +259,9 @@ position = Vector2( 0, 12 )
 _interactor_data = ExtResource( 5 )
 _debug = true
 
+[connection signal="item_slotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_slotted"]
+[connection signal="item_unslotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_unslotted"]
 [connection signal="interacted" from="Interactor" to="." method="_on_interacted"]
-[connection signal="interacted" from="Interactor" to="EntitySlot" method="_on_interacted"]
+[connection signal="interacted" from="Interactor" to="HeldItemSlot" method="_on_interacted"]
 
 [editable path="Interactor"]
