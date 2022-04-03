@@ -22,6 +22,9 @@ texture = ExtResource( 4 )
 offset = Vector2( 0, 0 )
 hframes = 2
 
+[node name="FakeHeight" parent="." index="3"]
+target = NodePath("../YSort")
+
 [node name="YSort" type="YSort" parent="." index="5"]
 
 [node name="Sprite3" type="Sprite" parent="YSort" index="0"]

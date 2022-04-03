@@ -15,10 +15,13 @@ var _last_input_vector = Vector2.ZERO
 var _movement_vector = Vector2.ZERO
 
 var _sprite : Sprite
-var _direction := false
+var _direction = 1
 var _interactor : Interactor
 var _slot : HeldItemSlot
 var _drop_position
+var _cooldown_timer : Timer
+
+var can_perform_actions = true
 
 var holding_item := false
 
@@ -28,6 +31,7 @@ func _ready():
 	_interactor = $Interactor
 	_slot = $HeldItemSlot
 	_drop_position = $DropPosition
+	_cooldown_timer = $ActionCooldown
 	#_player_interaction = $InteractionRange as PlayerInteractionRange
 	#_object_slot = $ObjectSlot
 	
@@ -57,17 +61,21 @@ func _input(event):
 #		if _slot.slotted_entity:
 #			_slot.drop()
 		if !_interactor.has_avaible_interaction():
-			_slot.unequip()
+			pass
+			#slot.unequip()
 		else:
-			_interactor.interact()
+			pass
+			#_interactor.interact()
 		
 		#_object_slot.create_and_equip_from_index()
 	
 	if _sprite:
 		if _last_input_vector.x > 0:
 			_sprite.flip_h = true
+			_direction = 1
 		else:
 			_sprite.flip_h = false
+			_direction = -1
 	
 func _process(delta):
 	_movement_vector = _input_vector
@@ -115,8 +123,19 @@ func _process(delta):
 #			_equipped_object = null
 #			#Game.spawn_scene(global_position, entity.dropped_scene)
 #		slotted_entity.on_drop()
-#
-#
+
+func drop_object():
+	if _slot.get_item():
+		var object = _slot.unequip() as ObjectBase
+		object.global_position = _drop_position.global_position
+
+func throw():
+	if _slot.get_item():
+		var object = _slot.unequip() as ObjectBase
+		object.global_position = Vector2(global_position.x + 40 * _direction, global_position.y)
+		object._physics_position = Vector3(global_position.x, -60 , global_position.y)
+		object.apply_force(Vector3(500 * _direction,-400,0))
+
 func _on_interacted(interactor, node):
 	pass
 #	equip_object(node.target)
@@ -132,3 +151,27 @@ func _on_HeldItemSlot_item_unslotted(item):
 	holding_item = false
 	_animation_tree["parameters/conditions/isHoldingItem"] = false
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
+
+
+func _on_PlayerInput_action_use(context : InputAction.CallbackContext):
+	if context.action.action_name == "HoldUse":
+		if context.canceled:
+				if can_perform_actions:
+					throw()
+					can_perform_actions = false
+					_cooldown_timer.start()
+		elif context.performed:
+				drop_object()
+	elif context.action.action_name == "Use":
+		if context.performed:
+			if can_perform_actions:
+				var interactable = _interactor.interact()
+				if interactable:
+					can_perform_actions = false
+					_cooldown_timer.start()
+
+
+func _on_ActionCooldown_timeout():
+	_cooldown_timer.stop()
+	can_perform_actions = true
+	print("cooldown off")

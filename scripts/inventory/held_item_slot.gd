@@ -24,10 +24,12 @@ func unequip():
 		item.queue_free()
 #		if _stored_object_data:
 #			var object = Game.spawn_object(_drop_position.global_position, _stored_object_data) as ObjectBase
+		var object = _stored_owner_node
 		_stored_owner_node_parent.add_child(_stored_owner_node)
-		_stored_owner_node.global_position = _drop_position.global_position
+		_stored_owner_node.global_position = global_position
 		_stored_owner_node = null
 		_stored_owner_node_parent = null
+		return object
 
 func _on_interacted(interactor, node):
 	if !_item:
