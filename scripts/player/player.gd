@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+class_name Player
+
 export(NodePath) onready var _animation_player = get_node_or_null(_animation_player) as AnimationPlayer
 export(NodePath) onready var _animation_tree = get_node(_animation_tree)
 
@@ -13,15 +15,23 @@ var _last_input_vector = Vector2.ZERO
 var _movement_vector = Vector2.ZERO
 
 var _sprite : Sprite
-var _direction := false
+var _direction = 1
 var _interactor : Interactor
-var _slot : EntitySlot
+var _slot : HeldItemSlot
+var _drop_position
+var _cooldown_timer : Timer
+
+var can_perform_actions = true
+
+var holding_item := false
 
 func _ready():
 	_interaction_area = get_node_or_null(_interaction_area)
 	_sprite = $Sprite
 	_interactor = $Interactor
-	_slot = $EntitySlot
+	_slot = $HeldItemSlot
+	_drop_position = $DropPosition
+	_cooldown_timer = $ActionCooldown
 	#_player_interaction = $InteractionRange as PlayerInteractionRange
 	#_object_slot = $ObjectSlot
 	
@@ -46,20 +56,26 @@ func _input(event):
 		#_animation_tree.get("parameters/playback").travel("Idle")
 	
 	if Input.is_action_just_pressed("ui_accept"):
-		_animation_tree["parameters/conditions/isHoldingItem"] = !_animation_tree["parameters/conditions/isHoldingItem"]
-		_animation_tree["parameters/conditions/isNotHoldingItem"] = !_animation_tree["parameters/conditions/isNotHoldingItem"]
-		
-		if _slot.slotted_entity:
-			_slot.drop()
-		_interactor.interact()
+		#if _equipped_object:
+		#	unequip()
+#		if _slot.slotted_entity:
+#			_slot.drop()
+		if !_interactor.has_avaible_interaction():
+			pass
+			#slot.unequip()
+		else:
+			pass
+			#_interactor.interact()
 		
 		#_object_slot.create_and_equip_from_index()
 	
 	if _sprite:
 		if _last_input_vector.x > 0:
 			_sprite.flip_h = true
+			_direction = 1
 		else:
 			_sprite.flip_h = false
+			_direction = -1
 	
 func _process(delta):
 	_movement_vector = _input_vector
@@ -69,3 +85,93 @@ func _process(delta):
 	#match(callback_context.type.resource_name):
 	#	"Pickup":
 	#		_object_slot.create_and_equip_from_scene(callback_context.interaction_data["slotable_scene"])
+
+
+#func equip_object(object):
+#	if object.is_in_group("Interactable"):
+#		var interactable : Interactable
+#		var slotted_object : SlottedEntityObject
+#		for child in object.get_children():
+#			if child is Interactable:
+#				interactable = child as Interactable
+#				break
+#		if interactable:
+#			for behaviour in interactable.get_behaviours():
+#				if behaviour is InteractableBehaviourPickup:
+#					slotted_object = behaviour.create_slottable_object(interactable.target)
+#					_equipped_object = Game.deactivate(interactable.target)
+#					var slotted_entity = _slot.slot(slotted_object)
+#					print("entity slotted", slotted_entity)
+#				if behaviour is InteractableBehaviourContainer:
+#					if slotted_object:
+#						if slotted_object is SlottedEntityObjectContainer:
+#							var scene = behaviour.container.stored_entity
+#							if scene:
+#								slotted_object.populate_slot( load(scene.filename) )
+#
+#func unequip():
+#	if _equipped_object:
+#		var slotted_entity = _slot.unslot()
+#		if _drop_position:
+#			Game.reactivate(_equipped_object)
+#			_equipped_object.global_position = _drop_position.global_position
+#			_equipped_object = null
+#			#Game.spawn_scene(_drop_position.global_position, entity.dropped_scene)
+#		else:
+#			Game.reactivate(_equipped_object)
+#			_equipped_object.global_position = global_position
+#			_equipped_object = null
+#			#Game.spawn_scene(global_position, entity.dropped_scene)
+#		slotted_entity.on_drop()
+
+func drop_object():
+	if _slot.get_item():
+		var object = _slot.unequip() as ObjectBase
+		object.global_position = _drop_position.global_position
+
+func throw():
+	if _slot.get_item():
+		var object = _slot.unequip() as ObjectBase
+		object.global_position = Vector2(global_position.x + 40 * _direction, global_position.y)
+		object._physics_position = Vector3(global_position.x, -60 , global_position.y)
+		object.apply_force(Vector3(500 * _direction,-400,0))
+
+func _on_interacted(interactor, node):
+	pass
+#	equip_object(node.target)
+
+
+func _on_HeldItemSlot_item_slotted(item):
+	_animation_tree["parameters/conditions/isHoldingItem"] = true
+	_animation_tree["parameters/conditions/isNotHoldingItem"] = false
+	holding_item = true
+
+
+func _on_HeldItemSlot_item_unslotted(item):
+	holding_item = false
+	_animation_tree["parameters/conditions/isHoldingItem"] = false
+	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
+
+
+func _on_PlayerInput_action_use(context : InputAction.CallbackContext):
+	if context.action.action_name == "HoldUse":
+		if context.canceled:
+				if can_perform_actions:
+					throw()
+					can_perform_actions = false
+					_cooldown_timer.start()
+		elif context.performed:
+				drop_object()
+	elif context.action.action_name == "Use":
+		if context.performed:
+			if can_perform_actions:
+				var interactable = _interactor.interact()
+				if interactable:
+					can_perform_actions = false
+					_cooldown_timer.start()
+
+
+func _on_ActionCooldown_timeout():
+	_cooldown_timer.stop()
+	can_perform_actions = true
+	print("cooldown off")

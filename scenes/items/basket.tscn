@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/inventory/item_slot.gd" type="Script" id=1]
+[ext_resource path="res://scripts/items/item_base.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/basket-split-sheet.png" type="Texture" id=3]
+
+[node name="Basket" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Sprite2" type="Sprite" parent="YSort"]
+position = Vector2( 0, 0.1 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+offset = Vector2( 0, -0.1 )
+hframes = 2
+frame = 1
+
+[node name="Sprite" type="Sprite" parent="YSort"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="ItemSlot" type="Position2D" parent="YSort"]
+script = ExtResource( 1 )

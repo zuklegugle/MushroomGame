@@ -1,12 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/sprites/asset-stone.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
 [ext_resource path="res://scripts/floating_rock_interactable.gd" type="Script" id=3]
-[ext_resource path="res://scripts/interaction/interactable.gd" type="Script" id=4]
-[ext_resource path="res://scripts/interaction/slotable.gd" type="Script" id=5]
-[ext_resource path="res://scenes/entities/objects/slotted/slotted_floating_rock.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/interaction/behaviours/behaviour_pickup.gd" type="Script" id=7]
+[ext_resource path="res://scripts/interaction/pickup.gd" type="Script" id=4]
+[ext_resource path="res://scenes/items/rock.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 6.0
@@ -50,7 +48,7 @@ start_node = "Float"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=6]
 
-[node name="Rock" type="KinematicBody2D" groups=["Interactable"]]
+[node name="Rock" type="KinematicBody2D" groups=["Interactable", "Object"]]
 collision_layer = 12
 collision_mask = 0
 script = ExtResource( 3 )
@@ -62,7 +60,7 @@ rotation = 1.5708
 shape = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -30.9689 )
+position = Vector2( 0, -22.324 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -5.799 )
@@ -82,16 +80,8 @@ anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 6 )
 
-[node name="Interactable" type="Node" parent="."]
+[node name="Pickup" type="Node" parent="."]
 script = ExtResource( 4 )
-target = NodePath("..")
+_item_scene = ExtResource( 5 )
 
-[node name="InteractableBehaviourPickup" type="Node" parent="Interactable"]
-script = ExtResource( 7 )
-slotable = NodePath("../../Slotable")
-
-[node name="Slotable" type="Node" parent="."]
-script = ExtResource( 5 )
-slotted_scene = ExtResource( 6 )
-
-[connection signal="interacted" from="Interactable" to="." method="_on_Interactable_interacted"]
+[connection signal="interacted" from="Pickup" to="." method="_on_Interactable_interacted"]

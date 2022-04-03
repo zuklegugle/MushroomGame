@@ -3,25 +3,17 @@
 [ext_resource path="res://scenes/IteractionPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/ui/ui_interaction_popup.gd" type="Script" id=3]
-[ext_resource path="res://scenes/interaction/floating_rock_new_interactable.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/entities/objects/basket.tscn" type="PackedScene" id=4]
 [ext_resource path="res://data/player_interactor_data.tres" type="Resource" id=5]
-[ext_resource path="res://scenes/basket.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/items/rock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/levels/map_base.gd" type="Script" id=7]
-[ext_resource path="res://scenes/entities/objects/slotted/slotted_mushroom.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/entities/objects/rock.tscn" type="PackedScene" id=8]
 
 [node name="World" type="Node2D"]
 self_modulate = Color( 0, 0, 0, 1 )
 script = ExtResource( 7 )
 
 [node name="YSort" type="YSort" parent="."]
-
-[node name="Basket" parent="YSort" instance=ExtResource( 6 )]
-position = Vector2( 718, 227 )
-
-[node name="Basket2" parent="YSort" instance=ExtResource( 6 )]
-position = Vector2( 1085, 229 )
-
-[node name="FloatingRock" parent="YSort/Basket2/YSort/EntitySlot" index="0" instance=ExtResource( 8 )]
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 894, 374 )
@@ -32,8 +24,19 @@ anchor_mode = 0
 current = true
 smoothing_enabled = true
 
-[node name="Rock" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 536, 383 )
+[node name="Rock2" parent="YSort" instance=ExtResource( 8 )]
+position = Vector2( 705, 224 )
+
+[node name="Basket" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 577, 511 )
+
+[node name="Basket2" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 1052, 525 )
+
+[node name="ItemSlot" parent="YSort/Basket2/YSort" index="2"]
+_item_path = NodePath("Rock")
+
+[node name="Rock" parent="YSort/Basket2/YSort/ItemSlot" index="0" instance=ExtResource( 6 )]
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 

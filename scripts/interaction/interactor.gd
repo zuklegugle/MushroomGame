@@ -16,6 +16,10 @@ func interact():
 	if interactable:
 		interactable.interact(self)
 		emit_signal("interacted", self, interactable)
+	return interactable
+
+func has_avaible_interaction() -> bool:
+	return !_interactables_in_range.empty()
 
 func _register_interactable(node) -> int:
 	if node:

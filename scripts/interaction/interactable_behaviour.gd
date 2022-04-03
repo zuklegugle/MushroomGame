@@ -2,6 +2,8 @@ extends Node
 
 class_name InteractableBehaviour
 
-func on_interact(_node):
-	return _node
+var interactable
+
+func on_interact(interactable, node):
+	return interactable
 

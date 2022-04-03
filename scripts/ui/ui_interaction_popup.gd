@@ -5,11 +5,15 @@ class_name UIInteractionPopup
 export(Resource) var _interactor_data
 
 onready var label = $Label as Label
+var player
 
 func _ready():
 	_interactor_data = _interactor_data as InteractorData
 	if _interactor_data:
 		_interactor_data.connect("data_changed", self, "_on_data_changed")
+	var player_nodes = get_tree().get_nodes_in_group("Player")
+	player = player_nodes[0]
+	print("Player found: ", player)
 
 func _exit_tree():
 	if _interactor_data:
@@ -19,8 +23,19 @@ func _exit_tree():
 func _on_data_changed():
 	var _data = _interactor_data as InteractorData
 	var interactable = _data.get_closest_interactable() as Interactable
+	var pickup = _data.get_closest_interactable() as Pickup
+	var container = _data.get_closest_interactable() as PickupItemContainer
+	label.text = str("Press 'Use' to ")
 	if interactable != null:
 		visible = true
-		label.text =  str("Press 'Use' to ", interactable.hint)
 	else:
 		visible = false
+	if pickup:
+		if !player.holding_item:
+			label.text += "Pickup"
+		else:
+			if container:
+				if player.holding_item && !container.occupied():
+					label.text += "Store"
+				else:
+					visible = false
