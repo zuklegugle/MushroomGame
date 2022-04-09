@@ -13,10 +13,11 @@ var _interactables_in_range : Array
 
 func interact():
 	var interactable = _get_closest_interactable() as Interactable
+	var context = null
 	if interactable:
-		interactable.interact(self)
+		context = interactable.interact(self)
 		emit_signal("interacted", self, interactable)
-	return interactable
+	return context
 
 func has_avaible_interaction() -> bool:
 	return !_interactables_in_range.empty()

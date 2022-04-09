@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-class_name Player2
+class_name Player
 
 export(NodePath) onready var _animation_player = get_node_or_null(_animation_player) as AnimationPlayer
 export(NodePath) onready var _animation_tree = get_node(_animation_tree)
@@ -135,6 +135,9 @@ func throw():
 		object.global_position = Vector2(global_position.x + 40 * _direction, global_position.y)
 		object._physics_position = Vector3(global_position.x, -60 , global_position.y)
 		object.apply_force(Vector3(500 * _direction,-400,0))
+		_action_cooldown_start()
+		return true
+	return false
 
 func _on_interacted(interactor, node):
 	pass
@@ -153,25 +156,53 @@ func _on_HeldItemSlot_item_unslotted(item):
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
 
 
-func _on_PlayerInput_action_use(context : InputAction.CallbackContext):
-	if context.action.action_name == "HoldUse":
-		if context.canceled:
-				if can_perform_actions:
-					throw()
-					can_perform_actions = false
-					_cooldown_timer.start()
-		elif context.performed:
-				drop_object()
-	elif context.action.action_name == "Use":
-		if context.performed:
-			if can_perform_actions:
-				var interactable = _interactor.interact()
-				if interactable:
-					can_perform_actions = false
-					_cooldown_timer.start()
 
+
+#func _on_PlayerInput_action_use(context : InputAction.CallbackContext):
+#	if context.action.action_name == "HoldUse":
+#		if context.canceled:
+#				if can_perform_actions:
+#					throw()
+#					can_perform_actions = false
+#					_cooldown_timer.start()
+#		elif context.performed:
+#				drop_object()
+#	elif context.action.action_name == "Use":
+#		if context.performed:
+#			if can_perform_actions:
+#				var interactable = _interactor.interact()
+#				if interactable:
+#					can_perform_actions = false
+#					_cooldown_timer.start()
+
+
+func _action_cooldown_start():
+	can_perform_actions = false
+	_cooldown_timer.start()
 
 func _on_ActionCooldown_timeout():
 	_cooldown_timer.stop()
 	can_perform_actions = true
 	print("cooldown off")
+
+
+func _on_action_performed(action : PlayerInputAction):
+	if action.action_name == "use":
+		if can_perform_actions:
+			drop_object()
+
+func _on_action_canceled(action : PlayerInputAction):
+	if action.action_name == "use":
+		if can_perform_actions:
+			if throw():
+				return
+
+func _on_action_held_down(action : PlayerInputAction):
+	pass # Replace with function body.
+
+
+func _on_action_started(action : PlayerInputAction):
+	if action.action_name == "use":
+		var interactable = _interactor.interact()
+		if interactable:
+			_action_cooldown_start()
