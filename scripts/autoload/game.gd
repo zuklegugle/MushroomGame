@@ -17,6 +17,7 @@ func spawn_scene(position : Vector2, scene : PackedScene):
 			var new_scene = scene.instance()
 			current_world.base_node.add_child(new_scene)
 			new_scene.global_position = position
+			return new_scene
 		else:
 			push_warning("invalid scene")
 	else:
@@ -35,7 +36,7 @@ func spawn_entity_object():
 func spawn_object(position : Vector2, object : ObjectData):
 	var database = object_database.database as Dictionary
 	if database.has(object):
-		spawn_scene(position, database[object])
+		return spawn_scene(position, database[object])
 
 func spawn_item(item : ItemData) -> ItemBase:
 	if item:

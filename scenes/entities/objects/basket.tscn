@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
+[ext_resource path="res://scripts/entities/objects/basket.gd" type="Script" id=1]
 [ext_resource path="res://scenes/entities/objects/entity_object.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/inventory/item_slot.gd" type="Script" id=3]
 [ext_resource path="res://assets/sprites/basket-split-sheet.png" type="Texture" id=4]
@@ -9,6 +10,7 @@
 
 [node name="Basket" groups=["Interactable"] instance=ExtResource( 2 )]
 collision_layer = 12
+script = ExtResource( 1 )
 object_data = ExtResource( 6 )
 
 [node name="Shadow" parent="." index="1"]
@@ -47,5 +49,6 @@ script = ExtResource( 3 )
 
 [node name="PickupItemContainer" type="Node" parent="." index="6"]
 script = ExtResource( 5 )
+default_interaction = "Pickup"
 _item_data = ExtResource( 7 )
 _item_slot = NodePath("../YSort/ItemSlot")

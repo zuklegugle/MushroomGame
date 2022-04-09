@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://scripts/data/object_database.gd" type="Script" id=1]
-[ext_resource path="res://scenes/entities/objects/rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/entities/objects/rock2.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/entities/objects/basket.tscn" type="PackedScene" id=3]
 
 [resource]

@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/autoload/game.gd"
 }, {
+"base": "ObjectBase",
+"class": "Basket",
+"language": "GDScript",
+"path": "res://scripts/entities/objects/basket.gd"
+}, {
 "base": "Node",
 "class": "EntityObject",
 "language": "GDScript",
@@ -74,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interaction/behaviours/behaviour_pickup.gd"
 }, {
+"base": "Interactable",
+"class": "InteractablePickup",
+"language": "GDScript",
+"path": "res://scripts/interaction/interactable_pickup.gd"
+}, {
 "base": "Reference",
 "class": "InteractionContext",
 "language": "GDScript",
@@ -129,12 +139,22 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/object_database.gd"
 }, {
+"base": "ItemBase",
+"class": "ObjectItem",
+"language": "GDScript",
+"path": "res://scripts/items/object_item.gd"
+}, {
+"base": "ObjectItem",
+"class": "ObjectItemContainer",
+"language": "GDScript",
+"path": "res://scripts/items/container.gd"
+}, {
 "base": "Interactable",
 "class": "Pickup",
 "language": "GDScript",
 "path": "res://scripts/interaction/pickup.gd"
 }, {
-"base": "Pickup",
+"base": "InteractablePickup",
 "class": "PickupItemContainer",
 "language": "GDScript",
 "path": "res://scripts/interaction/container.gd"
@@ -181,6 +201,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AutoloadGame": "",
+"Basket": "",
 "EntityObject": "",
 "EntityObjectData": "",
 "FakeHeight": "",
@@ -193,6 +214,7 @@ _global_script_class_icons={
 "InteractableBehaviour": "",
 "InteractableBehaviourContainer": "",
 "InteractableBehaviourPickup": "",
+"InteractablePickup": "",
 "InteractionContext": "",
 "Interactor": "",
 "InteractorData": "",
@@ -204,6 +226,8 @@ _global_script_class_icons={
 "ObjectBase": "",
 "ObjectData": "",
 "ObjectDatabase": "",
+"ObjectItem": "",
+"ObjectItemContainer": "",
 "Pickup": "",
 "PickupItemContainer": "",
 "Player": "",

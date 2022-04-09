@@ -1,8 +1,12 @@
-extends Pickup
+extends InteractablePickup
 
 class_name PickupItemContainer
 
 export(NodePath) onready var _item_slot = get_node_or_null(_item_slot) as ItemSlot
+
+func _init():
+	_add_interaction("Store", funcref(self, "_on_item_store"))
+	_add_interaction("Take", funcref(self, "_on_item_take"))
 
 func store_item(item : ItemBase):
 	if !_item_slot.get_item():
@@ -11,6 +15,12 @@ func store_item(item : ItemBase):
 		item.get_parent().remove_child(item)
 		_item_slot.add_child(item)
 		_item_slot.slot(item)
+
+func take_item():
+	if _item_slot.get_item():
+		var item = _item_slot.unslot()
+		item.get_parent().remove_child(item)
+		return item
 
 func create_item() -> ItemBase:
 	var item = .create_item() as ItemBase
@@ -42,3 +52,12 @@ func find_item_slot(node):
 		if child is ItemSlot:
 			return child
 	return null
+
+func _on_item_store(_node):
+	pass
+
+func _on_item_take(_node):
+	var data = {
+		"item" : take_item()
+	}
+	return data

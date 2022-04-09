@@ -7,16 +7,13 @@
 [ext_resource path="res://data/player_interactor_data.tres" type="Resource" id=5]
 [ext_resource path="res://scenes/items/rock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/levels/map_base.gd" type="Script" id=7]
-[ext_resource path="res://scenes/entities/objects/rock.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/entities/objects/rock2.tscn" type="PackedScene" id=8]
 
 [node name="World" type="Node2D"]
 self_modulate = Color( 0, 0, 0, 1 )
 script = ExtResource( 7 )
 
 [node name="YSort" type="YSort" parent="."]
-
-[node name="Rock2" parent="YSort" instance=ExtResource( 8 )]
-position = Vector2( 705, 224 )
 
 [node name="Basket" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 577, 511 )
@@ -38,6 +35,9 @@ position = Vector2( -620, -340 )
 anchor_mode = 0
 current = true
 smoothing_enabled = true
+
+[node name="Rock" parent="YSort" instance=ExtResource( 8 )]
+position = Vector2( 812, 225 )
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
