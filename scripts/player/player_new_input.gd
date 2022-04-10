@@ -129,16 +129,17 @@ func drop_object():
 	if _slot.get_item():
 		var object_data = _slot.unequip()
 		if object_data:
-			Game.spawn_object(_drop_position.global_position, object_data.object)
-#		var object = _slot.unequip() as ObjectBase
-#		object.global_position = _drop_position.global_position
+			var object = Game.spawn_object(_drop_position.global_position, object_data.object)
+			object._apply_metadata(object_data.metadata)
+			_action_cooldown_start()
 
 func throw():
 	if _slot.get_item():
 		var object_data = _slot.unequip()
 		if object_data:
 			var object = Game.spawn_object(Vector2(global_position.x + 40 * _direction, global_position.y), object_data.object)
-			object.metadata = object_data.metadata
+			print("APPLY METADATA: ", object_data.metadata)
+			object._apply_metadata(object_data.metadata)
 			object._physics_position = Vector3(global_position.x, -60 , global_position.y)
 			object.apply_force(Vector3(500 * _direction,-400,0))
 			_action_cooldown_start()
@@ -146,10 +147,13 @@ func throw():
 	return false
 
 func _on_interacted(interactor, node, context : InteractionContext):
+	print("INTERACT")
 	var interactable = node as Interactable
 	match(context.type):
 		"Pickup":
-				if !holding_item:
+			print("PICKUP")
+			if !holding_item:
+				if context.data:
 					var item = context.data.item
 					if item:
 						_slot.equip(item)
@@ -157,25 +161,30 @@ func _on_interacted(interactor, node, context : InteractionContext):
 						#_slot.equip_object(node.owner)
 						_action_cooldown_start()
 		"Store":
-				var container = node as PickupItemContainer
-				if container:
-					if !container.occupied():
-						container.store_item(_slot.get_item())
-						_action_cooldown_start()
-						return
+			if context.data:
+				var stored_item = context.data.stored_item
+				if stored_item:
+					_action_cooldown_start()
+					return
+			else:
+				if throw():
+					return
 		"Take":
-				if !holding_item:
-					var item = context.data.item
-					if item:
-						_slot.equip(item)
-						_action_cooldown_start()
-						return
+			if holding_item:
+				return
+			if context.data:
+				print("TAKE")
+				var item = context.data.item
+				if item:
+					_slot.equip(item)
+					_action_cooldown_start()
+					return
 
 
 func _on_HeldItemSlot_item_slotted(item):
+	holding_item = true
 	_animation_tree["parameters/conditions/isHoldingItem"] = true
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = false
-	holding_item = true
 
 
 func _on_HeldItemSlot_item_unslotted(item):
@@ -220,6 +229,8 @@ func _on_action_performed(action : PlayerInputAction):
 			var closest_interactable = _interactor._get_closest_interactable() as Interactable
 			if closest_interactable:
 				if closest_interactable.avaible_interactions.has("Take"):
+					if holding_item:
+						return
 					var interactable = _interactor.interact("Take")
 					return
 			if holding_item:
@@ -233,7 +244,8 @@ func _on_action_canceled(action : PlayerInputAction):
 			if closest_interactable:
 				if closest_interactable.avaible_interactions.has("Store"):
 					if holding_item:
-						var interactable = _interactor.interact("Store")
+						var context = _interactor.interact("Store", {"item":_slot.get_item()})
+						print("CONTEXT DATA:", context.data)
 						return
 					else:
 						var interactable = _interactor.interact()

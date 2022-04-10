@@ -4,11 +4,11 @@
 [ext_resource path="res://scenes/entities/objects/entity_object.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/inventory/item_slot.gd" type="Script" id=3]
 [ext_resource path="res://assets/sprites/basket-split-sheet.png" type="Texture" id=4]
-[ext_resource path="res://scripts/interaction/container.gd" type="Script" id=5]
+[ext_resource path="res://scripts/interaction/pickup_item_container.gd" type="Script" id=5]
 [ext_resource path="res://data/objects/basket.tres" type="Resource" id=6]
 [ext_resource path="res://data/items/basket.tres" type="Resource" id=7]
 
-[node name="Basket" groups=["Interactable"] instance=ExtResource( 2 )]
+[node name="Basket" groups=["Container", "Interactable"] instance=ExtResource( 2 )]
 collision_layer = 12
 script = ExtResource( 1 )
 object_data = ExtResource( 6 )
@@ -52,3 +52,6 @@ script = ExtResource( 5 )
 default_interaction = "Pickup"
 _item_data = ExtResource( 7 )
 _item_slot = NodePath("../YSort/ItemSlot")
+
+[connection signal="item_stored" from="PickupItemContainer" to="." method="_on_item_stored"]
+[connection signal="item_taken" from="PickupItemContainer" to="." method="_on_item_taken"]

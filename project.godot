@@ -64,21 +64,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interaction/interactable.gd"
 }, {
-"base": "Node",
-"class": "InteractableBehaviour",
-"language": "GDScript",
-"path": "res://scripts/interaction/interactable_behaviour.gd"
-}, {
-"base": "InteractableBehaviour",
-"class": "InteractableBehaviourContainer",
-"language": "GDScript",
-"path": "res://scripts/interaction/behaviours/behaviour_container.gd"
-}, {
-"base": "InteractableBehaviour",
-"class": "InteractableBehaviourPickup",
-"language": "GDScript",
-"path": "res://scripts/interaction/behaviours/behaviour_pickup.gd"
-}, {
 "base": "Interactable",
 "class": "InteractablePickup",
 "language": "GDScript",
@@ -149,15 +134,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/items/container.gd"
 }, {
-"base": "Interactable",
-"class": "Pickup",
-"language": "GDScript",
-"path": "res://scripts/interaction/pickup.gd"
-}, {
 "base": "InteractablePickup",
 "class": "PickupItemContainer",
 "language": "GDScript",
-"path": "res://scripts/interaction/container.gd"
+"path": "res://scripts/interaction/pickup_item_container.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
@@ -189,11 +169,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/utils/resource_utils.gd"
 }, {
-"base": "Node",
-"class": "Slotable",
-"language": "GDScript",
-"path": "res://scripts/interaction/slotable.gd"
-}, {
 "base": "VBoxContainer",
 "class": "UIInteractionPopup",
 "language": "GDScript",
@@ -211,9 +186,6 @@ _global_script_class_icons={
 "HeldItemSlot": "",
 "InputAction": "",
 "Interactable": "",
-"InteractableBehaviour": "",
-"InteractableBehaviourContainer": "",
-"InteractableBehaviourPickup": "",
 "InteractablePickup": "",
 "InteractionContext": "",
 "Interactor": "",
@@ -228,7 +200,6 @@ _global_script_class_icons={
 "ObjectDatabase": "",
 "ObjectItem": "",
 "ObjectItemContainer": "",
-"Pickup": "",
 "PickupItemContainer": "",
 "Player": "",
 "Player2": "",
@@ -236,7 +207,6 @@ _global_script_class_icons={
 "PlayerInputAction": "",
 "PlayerInputManager": "",
 "ResourceUtils": "",
-"Slotable": "",
 "UIInteractionPopup": ""
 }
 

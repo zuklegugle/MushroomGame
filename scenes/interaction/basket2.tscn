@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/sprites/basket-split-sheet.png" type="Texture" id=1]
 [ext_resource path="res://scripts/inventory/item_slot.gd" type="Script" id=2]
-[ext_resource path="res://scripts/interaction/container.gd" type="Script" id=3]
+[ext_resource path="res://scripts/interaction/pickup_item_container.gd" type="Script" id=3]
 [ext_resource path="res://scenes/items/ItemBase.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/items/basket.tscn" type="PackedScene" id=5]
 [ext_resource path="res://data/items/item_object_rock.tres" type="Resource" id=6]

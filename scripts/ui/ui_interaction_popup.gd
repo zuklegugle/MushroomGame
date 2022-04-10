@@ -23,19 +23,9 @@ func _exit_tree():
 func _on_data_changed():
 	var _data = _interactor_data as InteractorData
 	var interactable = _data.get_closest_interactable() as Interactable
-	var pickup = _data.get_closest_interactable() as Pickup
 	var container = _data.get_closest_interactable() as PickupItemContainer
 	label.text = str("Press 'Use' to ")
 	if interactable != null:
 		visible = true
 	else:
 		visible = false
-	if pickup:
-		if !player.holding_item:
-			label.text += "Pickup"
-		else:
-			if container:
-				if player.holding_item && !container.occupied():
-					label.text += "Store"
-				else:
-					visible = false

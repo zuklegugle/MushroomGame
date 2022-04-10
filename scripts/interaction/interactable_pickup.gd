@@ -8,14 +8,18 @@ func _init():
 func create_item() -> ItemBase:
 	if _item_data:
 		var item = Game.spawn_item(_item_data)
+		if owner.metadata:
+			item.metadata = owner.metadata
 		return item
 	else:
 		return null
 
-func _on_pickup(_node):
+func _on_pickup(_node, _interaction_data):
 	var data = {
-		"item" : create_item()
+		"item" : create_item(),
+		"metadata" : owner.metadata
 	}
+	print("OBJECT PICKUP: ", data)
 	return data
 
 func pickup() -> ItemBase:

@@ -4,6 +4,9 @@ class_name PickupItemContainer
 
 export(NodePath) onready var _item_slot = get_node_or_null(_item_slot) as ItemSlot
 
+signal item_stored(node, item)
+signal item_taken(node, item)
+
 func _init():
 	_add_interaction("Store", funcref(self, "_on_item_store"))
 	_add_interaction("Take", funcref(self, "_on_item_take"))
@@ -15,11 +18,16 @@ func store_item(item : ItemBase):
 		item.get_parent().remove_child(item)
 		_item_slot.add_child(item)
 		_item_slot.slot(item)
+		emit_signal("item_stored", self, item)
+		return true
+	else:
+		return false
 
 func take_item():
 	if _item_slot.get_item():
 		var item = _item_slot.unslot()
 		item.get_parent().remove_child(item)
+		emit_signal("item_taken", self, item)
 		return item
 
 func create_item() -> ItemBase:
@@ -51,12 +59,20 @@ func find_item_slot(node):
 		print(child)
 		if child is ItemSlot:
 			return child
-	return null
+	return {}
 
-func _on_item_store(_node):
-	pass
+func _on_item_store(_node, _interaction_data):
+	var item = _interaction_data.item as ItemBase
+	if item.is_in_group("Container"):
+		return null
+	if store_item(item):
+		return {
+			"stored_item" : _item_slot.get_item()
+		}
+	else:
+		return {}
 
-func _on_item_take(_node):
+func _on_item_take(_node, _interaction_data):
 	var data = {
 		"item" : take_item()
 	}

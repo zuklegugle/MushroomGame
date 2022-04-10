@@ -11,16 +11,12 @@ signal interactable_unregistered(node)
 
 var _interactables_in_range : Array
 
-func interact(interaction = ""):
+func interact(interaction = "", data = {}):
 	var interactable = _get_closest_interactable() as Interactable
 	var context = null
 	if interactable:
-		if interaction == "":
-			context = interactable.interact(self)
-			emit_signal("interacted", self, interactable, context)
-		else:
-			context = interactable.interact(self, interaction)
-			emit_signal("interacted", self, interactable, context)
+		context = interactable.interact(self, interaction, data)
+		emit_signal("interacted", self, interactable, context)
 	return context
 
 func has_avaible_interaction() -> bool:

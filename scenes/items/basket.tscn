@@ -6,7 +6,7 @@
 [ext_resource path="res://data/items/basket.tres" type="Resource" id=4]
 [ext_resource path="res://data/objects/basket.tres" type="Resource" id=5]
 
-[node name="Basket" type="Node2D"]
+[node name="Basket" type="Node2D" groups=["Container"]]
 script = ExtResource( 2 )
 item_data = ExtResource( 4 )
 object_data = ExtResource( 5 )
