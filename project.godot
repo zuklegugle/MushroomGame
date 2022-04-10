@@ -213,7 +213,7 @@ _global_script_class_icons={
 [application]
 
 config/name="MushroomGame"
-run/main_scene="res://scenes/levels/World.tscn"
+run/main_scene="res://scenes/levels/World2.tscn"
 
 [autoload]
 

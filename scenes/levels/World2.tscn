@@ -28,6 +28,7 @@ _item_path = NodePath("Rock")
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 632, 344 )
+speed = 250.0
 
 [node name="Camera2D" type="Camera2D" parent="YSort/Player"]
 position = Vector2( -620, -340 )
