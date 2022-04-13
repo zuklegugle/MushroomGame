@@ -1,12 +1,10 @@
 class_name InteractionContext
 
-var type
 var interactor
 var interactable
 var data
 
-func _init(_type, _interactor, _interactable, _data = {}):
-		type = _type
+func _init(_interactor, _interactable, _data = {}):
 		interactor = _interactor
 		interactable = _interactable
 		data = _data

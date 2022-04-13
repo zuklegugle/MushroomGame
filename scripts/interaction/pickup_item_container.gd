@@ -7,10 +7,6 @@ export(NodePath) onready var _item_slot = get_node_or_null(_item_slot) as ItemSl
 signal item_stored(node, item)
 signal item_taken(node, item)
 
-func _init():
-	_add_interaction("Store", funcref(self, "_on_item_store"))
-	_add_interaction("Take", funcref(self, "_on_item_take"))
-
 func store_item(item : ItemBase):
 	if !_item_slot.get_item():
 		var slot = item.get_parent() as ItemSlot

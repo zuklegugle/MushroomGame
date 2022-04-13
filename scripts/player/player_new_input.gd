@@ -146,39 +146,49 @@ func throw():
 			return true
 	return false
 
-func _on_interacted(interactor, node, context : InteractionContext):
-	print("INTERACT")
-	var interactable = node as Interactable
-	match(context.type):
-		"Pickup":
-			print("PICKUP")
-			if !holding_item:
-				if context.data:
-					var item = context.data.item
-					if item:
-						_slot.equip(item)
-						node.owner.destroy()
-						#_slot.equip_object(node.owner)
-						_action_cooldown_start()
-		"Store":
-			if context.data:
-				var stored_item = context.data.stored_item
-				if stored_item:
-					_action_cooldown_start()
-					return
-			else:
-				if throw():
-					return
-		"Take":
-			if holding_item:
-				return
-			if context.data:
-				print("TAKE")
-				var item = context.data.item
-				if item:
-					_slot.equip(item)
-					_action_cooldown_start()
-					return
+func equip_item(item):
+	if !holding_item:
+		if item:
+			_slot.equip(item)
+			_action_cooldown_start()
+
+func _on_interacted(context : InteractionContext):
+	match(context.data.interaction.type):
+		"pickup":
+			equip_item(context.data.interaction.item)
+# func _on_interacted(interactor, node, context : InteractionContext):
+# 	print("INTERACT")
+# 	var interactable = node as Interactable
+# 	match(context.type):
+# 		"Pickup":
+# 			print("PICKUP")
+# 			if !holding_item:
+# 				if context.data:
+# 					var item = context.data.item
+# 					if item:
+# 						_slot.equip(item)
+# 						node.owner.destroy()
+# 						#_slot.equip_object(node.owner)
+# 						_action_cooldown_start()
+# 		"Store":
+# 			if context.data:
+# 				var stored_item = context.data.stored_item
+# 				if stored_item:
+# 					_action_cooldown_start()
+# 					return
+# 			else:
+# 				if throw():
+# 					return
+# 		"Take":
+# 			if holding_item:
+# 				return
+# 			if context.data:
+# 				print("TAKE")
+# 				var item = context.data.item
+# 				if item:
+# 					_slot.equip(item)
+# 					_action_cooldown_start()
+# 					return
 
 
 func _on_HeldItemSlot_item_slotted(item):
@@ -222,44 +232,77 @@ func _on_ActionCooldown_timeout():
 	can_perform_actions = true
 	print("cooldown off")
 
-
 func _on_action_performed(action : PlayerInputAction):
 	if action.action_name == "use":
-		if can_perform_actions:
-			var closest_interactable = _interactor._get_closest_interactable() as Interactable
-			if closest_interactable:
-				if closest_interactable.avaible_interactions.has("Take"):
-					if holding_item:
-						return
-					var interactable = _interactor.interact("Take")
-					return
-			if holding_item:
-				drop_object()
-				return
+		if _interactor.has_avaible_interaction():
+			var _interactable = _interactor.interact({
+				"type": "player_interaction_finished",
+				"data":{
+					"item": _slot.get_item()
+				}
+			})
+
 
 func _on_action_canceled(action : PlayerInputAction):
 	if action.action_name == "use":
-		if can_perform_actions:
-			var closest_interactable = _interactor._get_closest_interactable() as Interactable
-			if closest_interactable:
-				if closest_interactable.avaible_interactions.has("Store"):
-					if holding_item:
-						var context = _interactor.interact("Store", {"item":_slot.get_item()})
-						print("CONTEXT DATA:", context.data)
-						return
-					else:
-						var interactable = _interactor.interact()
-						return
-			if throw():
-				return
+		if _interactor.has_avaible_interaction():
+			var _interactable = _interactor.interact({
+				"type": "player_interaction_canceled",
+				"data":{
+					"item": _slot.get_item()
+				}
+			})
 
 func _on_action_held_down(action : PlayerInputAction):
-	pass # Replace with function body.
-
+	pass
 
 func _on_action_started(action : PlayerInputAction):
 	if action.action_name == "use":
-		var closest_interactable = _interactor._get_closest_interactable() as Interactable
-		if closest_interactable:
-			if !closest_interactable.avaible_interactions.has("Take"):
-				var interactable = _interactor.interact()
+		if _interactor.has_avaible_interaction():
+			var _interactable = _interactor.interact({
+				"type": "player_interaction_started",
+				"data":{
+					"item": _slot.get_item()
+				}
+			})
+
+	# func _on_action_performed(action : PlayerInputAction):
+# 	if action.action_name == "use":
+# 		if can_perform_actions:
+# 			var closest_interactable = _interactor._get_closest_interactable() as Interactable
+# 			if closest_interactable:
+# 				if closest_interactable.avaible_interactions.has("Take"):
+# 					if holding_item:
+# 						return
+# 					var interactable = _interactor.interact("Take")
+# 					return
+# 			if holding_item:
+# 				drop_object()
+# 				return
+
+# func _on_action_canceled(action : PlayerInputAction):
+# 	if action.action_name == "use":
+# 		if can_perform_actions:
+# 			var closest_interactable = _interactor._get_closest_interactable() as Interactable
+# 			if closest_interactable:
+# 				if closest_interactable.avaible_interactions.has("Store"):
+# 					if holding_item:
+# 						var context = _interactor.interact("Store", {"item":_slot.get_item()})
+# 						print("CONTEXT DATA:", context.data)
+# 						return
+# 					else:
+# 						var interactable = _interactor.interact()
+# 						return
+# 			if throw():
+# 				return
+
+# func _on_action_held_down(action : PlayerInputAction):
+# 	pass # Replace with function body.
+
+
+# func _on_action_started(action : PlayerInputAction):
+# 	if action.action_name == "use":
+# 		var closest_interactable = _interactor._get_closest_interactable() as Interactable
+# 		if closest_interactable:
+# 			if !closest_interactable.avaible_interactions.has("Take"):
+# 				var interactable = _interactor.interact()

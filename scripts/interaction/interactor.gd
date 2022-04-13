@@ -5,18 +5,22 @@ class_name Interactor
 export(Resource) var _interactor_data
 export(bool) var _debug : bool
 
-signal interacted(interactor, node, context)
+signal interacted(context)
 signal interactable_registered(node)
 signal interactable_unregistered(node)
 
 var _interactables_in_range : Array
 
-func interact(interaction = "", data = {}):
+func interact(data = {
+	"type": "undefined",
+	"data": {}
+}):
 	var interactable = _get_closest_interactable() as Interactable
 	var context = null
 	if interactable:
-		context = interactable.interact(self, interaction, data)
-		emit_signal("interacted", self, interactable, context)
+		context = interactable.interact(self, data)
+		emit_signal("interacted", context)
+		print(context.data)
 	return context
 
 func has_avaible_interaction() -> bool:
