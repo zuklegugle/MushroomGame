@@ -62,15 +62,15 @@ func find_item_slot(node):
 	return {}
 
 func _on_item_store(_node, _interaction_data):
-	var item = _interaction_data.item as ItemBase
-	if item.is_in_group("Container"):
-		return null
-	if store_item(item):
-		return {
-			"stored_item" : _item_slot.get_item()
-		}
-	else:
-		return {}
+	if _interaction_data:
+		var item = _interaction_data.item as ItemBase
+		if item.is_in_group("Container"):
+			return null
+		if store_item(item):
+			return {
+				"stored_item" : _item_slot.get_item()
+			}
+	return {}
 
 func _on_item_take(_node, _interaction_data):
 	var data = {
