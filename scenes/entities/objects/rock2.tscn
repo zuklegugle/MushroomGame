@@ -9,7 +9,6 @@
 collision_layer = 12
 object_data = ExtResource( 4 )
 
-[node name="Pickup" type="Node" parent="." index="5"]
+[node name="Pickup" type="Node" parent="." index="4"]
 script = ExtResource( 2 )
-default_interaction = "Pickup"
 _item_data = ExtResource( 3 )

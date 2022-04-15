@@ -218,6 +218,7 @@ run/main_scene="res://scenes/levels/World2.tscn"
 [autoload]
 
 Game="*res://scenes/autoload/Game.tscn"
+PlayerEvents="*res://scripts/autoload/player_events.gd"
 
 [display]
 

@@ -27,7 +27,7 @@ hframes = 2
 [node name="FakeHeight" parent="." index="3"]
 target = NodePath("../YSort")
 
-[node name="YSort" type="YSort" parent="." index="5"]
+[node name="YSort" type="YSort" parent="." index="4"]
 
 [node name="Sprite3" type="Sprite" parent="YSort" index="0"]
 position = Vector2( 0, -18.951 )
@@ -47,9 +47,8 @@ frame = 1
 position = Vector2( 0, -18.935 )
 script = ExtResource( 3 )
 
-[node name="PickupItemContainer" type="Node" parent="." index="6"]
+[node name="PickupItemContainer" type="Node" parent="." index="5"]
 script = ExtResource( 5 )
-default_interaction = "Pickup"
 _item_data = ExtResource( 7 )
 _item_slot = NodePath("../YSort/ItemSlot")
 

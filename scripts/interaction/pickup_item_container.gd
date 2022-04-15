@@ -7,6 +7,51 @@ export(NodePath) onready var _item_slot = get_node_or_null(_item_slot) as ItemSl
 signal item_stored(node, item)
 signal item_taken(node, item)
 
+func _on_player_interaction_started(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		if _item_slot.get_item():
+			return data
+		data = ._on_player_interaction_started(player_data)
+		return data
+	else:
+	# player is holding an item
+		var item = player_data.data.item as ItemBase
+		# not allow to store containers
+		if item.is_in_group("Container"):
+			return data
+		# item stored successfully
+		if store_item(item):
+			return {
+				"type": "item_stored",
+				"stored_item" : _item_slot.get_item()
+			}
+		# failed to store item
+		else:
+			return data
+
+func _on_player_interaction_canceled(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		data = ._on_player_interaction_started(player_data)
+		return data
+	else:
+		return data
+
+func _on_player_interaction_finished(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		var _item = take_item()
+		if _item:
+			return {
+				"type": "item_taken",
+				"item": _item
+			}
+	return data
+
 func store_item(item : ItemBase):
 	if !_item_slot.get_item():
 		var slot = item.get_parent() as ItemSlot
@@ -56,20 +101,3 @@ func find_item_slot(node):
 		if child is ItemSlot:
 			return child
 	return {}
-
-func _on_item_store(_node, _interaction_data):
-	if _interaction_data:
-		var item = _interaction_data.item as ItemBase
-		if item.is_in_group("Container"):
-			return null
-		if store_item(item):
-			return {
-				"stored_item" : _item_slot.get_item()
-			}
-	return {}
-
-func _on_item_take(_node, _interaction_data):
-	var data = {
-		"item" : take_item()
-	}
-	return data

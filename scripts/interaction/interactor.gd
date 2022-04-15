@@ -12,6 +12,7 @@ signal interactable_unregistered(node)
 var _interactables_in_range : Array
 
 func interact(data = {
+	"player": null,
 	"type": "undefined",
 	"data": {}
 }):

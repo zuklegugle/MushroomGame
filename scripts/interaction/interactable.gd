@@ -16,9 +16,13 @@ func interact(interactor, data):
 			interaction_data = _on_player_interaction_finished(data)
 	
 	data.interaction = interaction_data
-	
+	interaction_data = null
 	emit_signal("interacted", self, data)
-	return InteractionContext.new(interactor, self, data)
+	return {
+		"interactor": interactor,
+		"interactable": self,
+		"data": data
+	}
 
 func get_context_hint() -> String:
 	return "Interact"

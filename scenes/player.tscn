@@ -267,8 +267,6 @@ action_name = "use"
 
 [connection signal="item_slotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_slotted"]
 [connection signal="item_unslotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_unslotted"]
-[connection signal="interacted" from="Interactor" to="." method="_on_interacted"]
-[connection signal="interacted" from="Interactor" to="HeldItemSlot" method="_on_interacted"]
 [connection signal="timeout" from="ActionCooldown" to="." method="_on_ActionCooldown_timeout"]
 [connection signal="canceled" from="PlayerInputManager/ButtonHold" to="." method="_on_action_canceled"]
 [connection signal="held_down" from="PlayerInputManager/ButtonHold" to="." method="_on_action_held_down"]
