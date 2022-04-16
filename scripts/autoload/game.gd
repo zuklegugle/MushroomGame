@@ -23,29 +23,15 @@ func spawn_scene(position : Vector2, scene : PackedScene):
 	else:
 		push_warning("no current world")
 
-func deactivate(node):
-	node.get_parent().remove_child(node)
-	return node
-
-func reactivate(node):
-	current_world.base_node.add_child(node)
-
-func spawn_entity_object():
-	print("Root node: ", get_tree().current_scene)
-
 func spawn_object(position : Vector2, object : ObjectData):
 	var database = object_database.database as Dictionary
 	if database.has(object):
 		return spawn_scene(position, database[object])
 
-func spawn_item(item : ItemData) -> ItemBase:
-	if item:
-		var database = item_database.database as Dictionary
-		if database.has(item):
-			var item_instance = database[item].instance() as ItemBase
-			return item_instance
-		else:
-			return null
+func spawn_item(item_id) -> ItemBase:
+	var scene = ItemRegistry.get_item_scene(item_id)
+	if scene:
+		var item_instance = scene.instance()
+		return item_instance
 	else:
-		return null
-		 
+		return null 

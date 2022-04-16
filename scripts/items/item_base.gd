@@ -1,19 +1,25 @@
-extends Node2D
+class_name ItemBase extends Node2D
 
-class_name ItemBase
-
+export(String) var item_id
 export(Resource) var item_data
 
 var metadata = {}
 
-func _ready():
-	_create()
+# callbacks
+func _process(_delta):
+	_on_process()
 
-func _apply_metadata(data):
+# public methods
+func create(_data):
+	return self
+
+func destroy(_data):
+	queue_free()
+
+# private methods
+func _apply_metadata(_data):
 	pass
 
-func _create():
-	pass
-
-func _destroy():
+# event hooks
+func _on_process():
 	pass

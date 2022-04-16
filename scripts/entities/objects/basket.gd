@@ -3,7 +3,7 @@ class_name Basket extends ObjectBase
 onready var slot = $YSort/ItemSlot as ItemSlot
 
 func _init():
-	metadata["test"] = "test"
+	metadata.stored_item = {}
 
 func _ready():
 	if slot.get_children().size() > 0:

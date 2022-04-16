@@ -7,5 +7,6 @@
 
 [node name="Rock" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+item_id = "rock"
 item_data = ExtResource( 3 )
 object_data = ExtResource( 4 )

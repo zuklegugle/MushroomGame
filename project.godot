@@ -164,6 +164,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/new_input_system/player_input_manager.gd"
 }, {
+"base": "Resource",
+"class": "RegistryEntry",
+"language": "GDScript",
+"path": "res://scripts/data/registry/registry_entry.gd"
+}, {
 "base": "Reference",
 "class": "ResourceUtils",
 "language": "GDScript",
@@ -206,6 +211,7 @@ _global_script_class_icons={
 "PlayerInput": "",
 "PlayerInputAction": "",
 "PlayerInputManager": "",
+"RegistryEntry": "",
 "ResourceUtils": "",
 "UIInteractionPopup": ""
 }
@@ -219,6 +225,7 @@ run/main_scene="res://scenes/levels/World2.tscn"
 
 Game="*res://scenes/autoload/Game.tscn"
 PlayerEvents="*res://scripts/autoload/player_events.gd"
+ItemRegistry="*res://scripts/autoload/item_registry.gd"
 
 [display]
 
@@ -284,6 +291,13 @@ move_right={
 use={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

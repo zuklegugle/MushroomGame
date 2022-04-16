@@ -79,8 +79,7 @@ func create_item() -> ItemBase:
 			var _slot = item.find_node("ItemSlot")
 			print(_slot)
 			if _slot:
-				var data = item_in_slot.item_data
-				var item_inside = Game.spawn_item(data)
+				var item_inside = Game.spawn_item(item_in_slot.item_id)
 				_slot.slot(item_inside)
 				_slot.add_child(item_inside)
 				print("created: ", item_inside)

@@ -116,7 +116,7 @@ animation = "Idle"
 [sub_resource type="AnimationNodeTimeScale" id=38]
 
 [sub_resource type="AnimationNodeBlendTree" id=39]
-graph_offset = Vector2( -519, 103 )
+graph_offset = Vector2( -457, 62 )
 nodes/Animation/node = SubResource( 37 )
 nodes/Animation/position = Vector2( -80, 140 )
 nodes/TimeScale/node = SubResource( 38 )
@@ -182,7 +182,7 @@ advance_condition = "isNotRunning"
 
 [sub_resource type="AnimationNodeStateMachine" id=2]
 states/Idle/node = SubResource( 39 )
-states/Idle/position = Vector2( 877, 53 )
+states/Idle/position = Vector2( 878, 53 )
 states/Idle-hold/node = SubResource( 10 )
 states/Idle-hold/position = Vector2( 710, 124 )
 states/Run/node = SubResource( 25 )
@@ -262,15 +262,22 @@ wait_time = 0.2
 [node name="PlayerInputManager" type="Node" parent="."]
 script = ExtResource( 10 )
 
-[node name="ButtonHold" parent="PlayerInputManager" instance=ExtResource( 11 )]
+[node name="Use" parent="PlayerInputManager" instance=ExtResource( 11 )]
 action_name = "use"
+
+[node name="Attack" parent="PlayerInputManager" instance=ExtResource( 11 )]
+action_name = "attack"
 
 [connection signal="item_slotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_slotted"]
 [connection signal="item_unslotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_unslotted"]
 [connection signal="timeout" from="ActionCooldown" to="." method="_on_ActionCooldown_timeout"]
-[connection signal="canceled" from="PlayerInputManager/ButtonHold" to="." method="_on_action_canceled"]
-[connection signal="held_down" from="PlayerInputManager/ButtonHold" to="." method="_on_action_held_down"]
-[connection signal="performed" from="PlayerInputManager/ButtonHold" to="." method="_on_action_performed"]
-[connection signal="started" from="PlayerInputManager/ButtonHold" to="." method="_on_action_started"]
+[connection signal="canceled" from="PlayerInputManager/Use" to="." method="_on_action_canceled"]
+[connection signal="held_down" from="PlayerInputManager/Use" to="." method="_on_action_held_down"]
+[connection signal="performed" from="PlayerInputManager/Use" to="." method="_on_action_performed"]
+[connection signal="started" from="PlayerInputManager/Use" to="." method="_on_action_started"]
+[connection signal="canceled" from="PlayerInputManager/Attack" to="." method="_on_action_canceled"]
+[connection signal="held_down" from="PlayerInputManager/Attack" to="." method="_on_action_held_down"]
+[connection signal="performed" from="PlayerInputManager/Attack" to="." method="_on_action_performed"]
+[connection signal="started" from="PlayerInputManager/Attack" to="." method="_on_action_started"]
 
 [editable path="Interactor"]
