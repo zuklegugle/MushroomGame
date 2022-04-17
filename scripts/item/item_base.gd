@@ -1,10 +1,13 @@
 class_name ItemBase extends Node2D
 
 export(String) var item_id
-export(Resource) var item_data
+
+var _item_data
 
 var metadata = {}
 
+func _init():
+	pass
 # callbacks
 func _process(_delta):
 	_on_process()

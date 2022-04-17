@@ -1,16 +1,13 @@
-class_name Basket extends ObjectBase
+class_name Basket extends EntityObject
 
 onready var slot = $YSort/ItemSlot as ItemSlot
-
-func _init():
-	metadata.stored_item = {}
 
 func _ready():
 	if slot.get_children().size() > 0:
 		var item = slot.get_child(0)
 		slot.slot(item)
-		metadata["stored_item"] = {
-			"item_data" : item.item_data,
+		metadata.stored_item = {
+			"item_id" : item.item_id,
 			"metadata" : item.metadata
 		}
 		print("ITEM STORED: ", metadata["stored_item"])
@@ -25,8 +22,8 @@ func _apply_metadata(data : Dictionary):
 				slot.add_child(item)
 
 func _on_item_stored(node, item):
-	metadata["stored_item"] = {
-			"item_data" : item.item_data,
+	metadata.stored_item = {
+			"item_id" : item.item_id,
 			"metadata" : item.metadata
 		}
 	print("ITEM STORED: ", metadata["stored_item"])

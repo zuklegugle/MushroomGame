@@ -153,11 +153,14 @@ func interact(type = "undefined", data = {}):
 
 func _on_action_performed(action : PlayerInputAction):
 	if can_perform_actions:
-		if action.action_name == "use":
-			if _interactor.has_avaible_interaction():
-				interact("player_interaction_finished", {
-					"item": _slot.get_item()
-				})
+		match(action.action_name):
+			"use":
+				if _interactor.has_avaible_interaction():
+					interact("player_interaction_finished", {
+						"item": _slot.get_item()
+					})
+			"attack":
+				drop_object()
 
 func _on_action_canceled(action : PlayerInputAction):
 	if can_perform_actions:

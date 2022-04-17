@@ -9,20 +9,20 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "AutoloadGame",
-"language": "GDScript",
-"path": "res://scripts/autoload/game.gd"
-}, {
-"base": "ObjectBase",
+"base": "EntityObject",
 "class": "Basket",
 "language": "GDScript",
-"path": "res://scripts/entities/objects/basket.gd"
+"path": "res://scripts/entity/objects/basket.gd"
 }, {
-"base": "Node",
+"base": "Reference",
+"class": "EntityBase",
+"language": "GDScript",
+"path": "res://scripts/entity/entity_base.gd"
+}, {
+"base": "Reference",
 "class": "EntityObject",
 "language": "GDScript",
-"path": "res://scripts/entities/objects/entity_object.gd"
+"path": "res://scripts/entity/entity_object.gd"
 }, {
 "base": "Resource",
 "class": "EntityObjectData",
@@ -69,11 +69,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/interaction/interactable_pickup.gd"
 }, {
-"base": "Reference",
-"class": "InteractionContext",
-"language": "GDScript",
-"path": "res://scripts/interaction/interaction_context.gd"
-}, {
 "base": "Node2D",
 "class": "Interactor",
 "language": "GDScript",
@@ -87,17 +82,12 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "ItemBase",
 "language": "GDScript",
-"path": "res://scripts/items/item_base.gd"
+"path": "res://scripts/item/item_base.gd"
 }, {
 "base": "Resource",
 "class": "ItemData",
 "language": "GDScript",
 "path": "res://scripts/data/item_data.gd"
-}, {
-"base": "Resource",
-"class": "ItemDatabase",
-"language": "GDScript",
-"path": "res://scripts/data/item_database.gd"
 }, {
 "base": "Position2D",
 "class": "ItemSlot",
@@ -108,31 +98,6 @@ _global_script_classes=[ {
 "class": "MapBase",
 "language": "GDScript",
 "path": "res://scenes/levels/map_base.gd"
-}, {
-"base": "FakeHeightPhysicsBody",
-"class": "ObjectBase",
-"language": "GDScript",
-"path": "res://scripts/entities/objects/object_base.gd"
-}, {
-"base": "Resource",
-"class": "ObjectData",
-"language": "GDScript",
-"path": "res://scripts/data/object_data.gd"
-}, {
-"base": "Resource",
-"class": "ObjectDatabase",
-"language": "GDScript",
-"path": "res://scripts/data/object_database.gd"
-}, {
-"base": "ItemBase",
-"class": "ObjectItem",
-"language": "GDScript",
-"path": "res://scripts/items/object_item.gd"
-}, {
-"base": "ObjectItem",
-"class": "ObjectItemContainer",
-"language": "GDScript",
-"path": "res://scripts/items/container.gd"
 }, {
 "base": "InteractablePickup",
 "class": "PickupItemContainer",
@@ -164,11 +129,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/new_input_system/player_input_manager.gd"
 }, {
-"base": "Resource",
-"class": "RegistryEntry",
-"language": "GDScript",
-"path": "res://scripts/data/registry/registry_entry.gd"
-}, {
 "base": "Reference",
 "class": "ResourceUtils",
 "language": "GDScript",
@@ -180,8 +140,8 @@ _global_script_classes=[ {
 "path": "res://scripts/ui/ui_interaction_popup.gd"
 } ]
 _global_script_class_icons={
-"AutoloadGame": "",
 "Basket": "",
+"EntityBase": "",
 "EntityObject": "",
 "EntityObjectData": "",
 "FakeHeight": "",
@@ -192,26 +152,18 @@ _global_script_class_icons={
 "InputAction": "",
 "Interactable": "",
 "InteractablePickup": "",
-"InteractionContext": "",
 "Interactor": "",
 "InteractorData": "",
 "ItemBase": "",
 "ItemData": "",
-"ItemDatabase": "",
 "ItemSlot": "",
 "MapBase": "",
-"ObjectBase": "",
-"ObjectData": "",
-"ObjectDatabase": "",
-"ObjectItem": "",
-"ObjectItemContainer": "",
 "PickupItemContainer": "",
 "Player": "",
 "Player2": "",
 "PlayerInput": "",
 "PlayerInputAction": "",
 "PlayerInputManager": "",
-"RegistryEntry": "",
 "ResourceUtils": "",
 "UIInteractionPopup": ""
 }
@@ -223,7 +175,7 @@ run/main_scene="res://scenes/levels/World2.tscn"
 
 [autoload]
 
-Game="*res://scenes/autoload/Game.tscn"
+Game="*res://scripts/autoload/game.gd"
 PlayerEvents="*res://scripts/autoload/player_events.gd"
 ItemRegistry="*res://scripts/autoload/item_registry.gd"
 

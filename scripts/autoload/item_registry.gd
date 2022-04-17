@@ -1,6 +1,6 @@
 extends Node
 
-const filepath = "res://data/registry/items/"
+const filepath = "res://data/item/"
 
 var _registry = {}
 
@@ -19,22 +19,21 @@ func _get_items():
 	while file != '':
 		var item = load(filepath + file)
 		if item:
-			if register_item(file.trim_suffix(".tres"), item.scene.resource_path):
+			if register_item(file.trim_suffix(".tres"), item):
 				print("item registered: ", file)
 		file = dir.get_next()
 	
 
-func get_item_scene(item_id : String) -> PackedScene:
+func get_item_data(item_id : String) -> ItemData:
 	return _registry[item_id]
 
-func register_item(item_id : String, scene_path : String):
+func register_item(item_id : String, item_data : ItemData) -> bool:
 	if !_registry.has(item_id):
-		var scene = load(scene_path)
-		if scene:
-			_registry[item_id] = scene
+		if item_data:
+			_registry[item_id] = item_data
 			return true
 		else:
-			push_error(str("ITEM REGISTRY: failed to register item ", item_id, " scene couldnt be loaded"))
+			push_error(str("ITEM REGISTRY: failed to register item ", item_id, " data couldnt be loaded"))
 			return false
 	else:
 		push_error(str("ITEM REGISTRY: failed to register item ", item_id, " already exists in the registry"))

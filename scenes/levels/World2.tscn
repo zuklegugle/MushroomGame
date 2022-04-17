@@ -1,30 +1,18 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/IteractionPopup.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/ui/ui_interaction_popup.gd" type="Script" id=3]
-[ext_resource path="res://scenes/entities/objects/basket.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/entities/basket.tscn" type="PackedScene" id=4]
 [ext_resource path="res://data/player_interactor_data.tres" type="Resource" id=5]
-[ext_resource path="res://scenes/items/rock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/entities/rock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/levels/map_base.gd" type="Script" id=7]
-[ext_resource path="res://scenes/entities/objects/rock2.tscn" type="PackedScene" id=8]
 
 [node name="World" type="Node2D"]
 self_modulate = Color( 0, 0, 0, 1 )
 script = ExtResource( 7 )
 
 [node name="YSort" type="YSort" parent="."]
-
-[node name="Basket" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 577, 511 )
-
-[node name="Basket2" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 1052, 525 )
-
-[node name="ItemSlot" parent="YSort/Basket2/YSort" index="2"]
-_item_path = NodePath("Rock")
-
-[node name="Rock" parent="YSort/Basket2/YSort/ItemSlot" index="0" instance=ExtResource( 6 )]
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 632, 344 )
@@ -36,8 +24,11 @@ anchor_mode = 0
 current = true
 smoothing_enabled = true
 
-[node name="Rock" parent="YSort" instance=ExtResource( 8 )]
-position = Vector2( 812, 225 )
+[node name="Basket" parent="YSort" instance=ExtResource( 4 )]
+position = Vector2( 490, 505 )
+
+[node name="Rock" parent="YSort" instance=ExtResource( 6 )]
+position = Vector2( 803, 499 )
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 
@@ -59,5 +50,3 @@ margin_right = 713.0
 margin_bottom = 535.0
 script = ExtResource( 3 )
 _interactor_data = ExtResource( 5 )
-
-[editable path="YSort/Basket2"]
