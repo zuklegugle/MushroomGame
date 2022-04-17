@@ -11,6 +11,10 @@ func create_item() -> ItemBase:
 func _on_player_interaction_started(data):
 	var _data = ._on_player_interaction_started(data)
 	var item = create_item()
+	item.create({
+		"entity_id": owner.entity_id,
+		"entity_metadata": owner.metadata
+	})
 	if !item:
 		return {
 			"type": "undefined"
@@ -18,5 +22,5 @@ func _on_player_interaction_started(data):
 	_data.type = "pickup"
 	_data.item = item
 	print("OBJECT PICKUP: ", _data)
-	owner.queue_free()
+	owner.destroy()
 	return _data

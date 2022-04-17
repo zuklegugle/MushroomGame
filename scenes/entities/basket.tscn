@@ -16,7 +16,11 @@ collision_layer = 12
 collision_mask = 0
 script = ExtResource( 6 )
 entity_id = "basket"
-_fake_height = NodePath("FakeHeight")
+_body_mass = 1.0
+_body_vertical_bounce = 0.5
+_body_horizontal_bounce = 0.8
+_body_bounce_threshold = 400
+_body_gravity_strength = Vector3( 0, 1000, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

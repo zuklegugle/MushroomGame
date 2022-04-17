@@ -1,18 +1,50 @@
+tool
 class_name EntityObject extends EntityBase
 
 # exports
-export(NodePath) onready var _fake_height = get_node_or_null(_fake_height) as FakeHeight
-
-export(float) var _mass := 1.0
-export(Vector3) var _gravity_strength := Vector3(0.0, 1000.0, 0.0)
-export(float) var _horizontal_bounce := .8
-export(float) var _vertical_bounce := .5
-export(float) var _bounce_threshold := 400
+onready var _fake_height = $FakeHeight
+var _body_mass := 1.0
+var _body_gravity_strength := Vector3(0.0, 1000.0, 0.0)
+var _body_horizontal_bounce := .8
+var _body_vertical_bounce := .5
+var _body_bounce_threshold := 400
 
 #signals
 signal hit_ground
 signal left_ground
 signal grounded
+
+func _get_property_list() -> Array:
+	return [{
+			name = "FakeHeightPhysicsBody",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY 
+		},{
+			name = "Body",
+			type = TYPE_NIL,
+			hint_string = "_body",
+			usage = PROPERTY_USAGE_GROUP
+		},{
+			name = "_body_mass",
+			type = TYPE_REAL,
+			usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
+		},{
+			name = "_body_vertical_bounce",
+			type = TYPE_REAL,
+			usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
+		},{
+			name = "_body_horizontal_bounce",
+			type = TYPE_REAL,
+			usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
+		},{
+			name = "_body_bounce_threshold",
+			type = TYPE_REAL,
+			usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
+		},{
+			name = "_body_gravity_strength",
+			type = TYPE_VECTOR3,
+			usage = PROPERTY_USAGE_EDITOR | PROPERTY_USAGE_STORAGE
+		}]
 
 # public properties
 
@@ -24,12 +56,16 @@ var _is_grounded := false
 
 #callbacks
 func _ready():
+	if Engine.editor_hint:
+		return
 	_fake_height.floor_point = position.y
 	_physics_position = Vector3(position.x, 0.0 , position.y)
 	_velocity = Vector3.ZERO
 
 func _process(delta):
-	var gravity_force = ( _gravity_strength / _mass )
+	if Engine.editor_hint:
+		return
+	var gravity_force = ( _body_gravity_strength / _body_mass )
 	
 	_velocity += gravity_force * delta;
 	_physics_position += _velocity * delta;
@@ -40,14 +76,14 @@ func _process(delta):
 		if !_is_grounded:
 			_is_grounded = true
 			emit_signal("hit_ground")
-			if _last_velocity.y < _bounce_threshold:
+			if _last_velocity.y < _body_bounce_threshold:
 				emit_signal("grounded")
 		_velocity = Vector3(0.0, 0.0, 0.0)
 		_physics_position.y = 0
 		_fake_height.floor_point = position.y
 		
-		if _last_velocity.y > _bounce_threshold:
-			_velocity += _get_bounce_vector(_last_velocity, _horizontal_bounce, _vertical_bounce, _mass)
+		if _last_velocity.y > _body_bounce_threshold:
+			_velocity += _get_bounce_vector(_last_velocity, _body_horizontal_bounce, _body_vertical_bounce, _body_mass)
 			_last_velocity = Vector3.ZERO
 	else:
 		if _is_grounded:
@@ -59,7 +95,7 @@ func _process(delta):
 
 # public methods
 func apply_force(vector : Vector3):
-	_velocity += (vector / _mass)
+	_velocity += (vector / _body_mass)
 
 func is_grounded():
 	return _is_grounded

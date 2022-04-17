@@ -4,8 +4,7 @@ const filepath = "res://data/item/"
 
 var _registry = {}
 
-
-func _ready():
+func _init():
 	_get_items()
 	print("ITEM REGISTRY", _registry)
 

@@ -14,20 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/entity/objects/basket.gd"
 }, {
-"base": "Reference",
+"base": "KinematicBody2D",
 "class": "EntityBase",
 "language": "GDScript",
 "path": "res://scripts/entity/entity_base.gd"
 }, {
-"base": "Reference",
+"base": "Resource",
+"class": "EntityData",
+"language": "GDScript",
+"path": "res://scripts/data/entity_data.gd"
+}, {
+"base": "EntityBase",
 "class": "EntityObject",
 "language": "GDScript",
 "path": "res://scripts/entity/entity_object.gd"
-}, {
-"base": "Resource",
-"class": "EntityObjectData",
-"language": "GDScript",
-"path": "res://scripts/data/entity_object_data.gd"
 }, {
 "base": "Node",
 "class": "FakeHeight",
@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/data/item_data.gd"
 }, {
+"base": "ItemBase",
+"class": "ItemPickedUpEntity",
+"language": "GDScript",
+"path": "res://scripts/item/item_picked_up_entity.gd"
+}, {
 "base": "Position2D",
 "class": "ItemSlot",
 "language": "GDScript",
@@ -129,6 +134,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/new_input_system/player_input_manager.gd"
 }, {
+"base": "EntityObject",
+"class": "Prop",
+"language": "GDScript",
+"path": "res://scripts/entity/objects/prop.gd"
+}, {
 "base": "Reference",
 "class": "ResourceUtils",
 "language": "GDScript",
@@ -142,8 +152,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Basket": "",
 "EntityBase": "",
+"EntityData": "",
 "EntityObject": "",
-"EntityObjectData": "",
 "FakeHeight": "",
 "FakeHeightArea2D": "",
 "FakeHeightKinematicBody": "",
@@ -156,6 +166,7 @@ _global_script_class_icons={
 "InteractorData": "",
 "ItemBase": "",
 "ItemData": "",
+"ItemPickedUpEntity": "",
 "ItemSlot": "",
 "MapBase": "",
 "PickupItemContainer": "",
@@ -164,6 +175,7 @@ _global_script_class_icons={
 "PlayerInput": "",
 "PlayerInputAction": "",
 "PlayerInputManager": "",
+"Prop": "",
 "ResourceUtils": "",
 "UIInteractionPopup": ""
 }
@@ -178,6 +190,7 @@ run/main_scene="res://scenes/levels/World2.tscn"
 Game="*res://scripts/autoload/game.gd"
 PlayerEvents="*res://scripts/autoload/player_events.gd"
 ItemRegistry="*res://scripts/autoload/item_registry.gd"
+EntityRegistry="*res://scripts/autoload/entity_registry.gd"
 
 [display]
 

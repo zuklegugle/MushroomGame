@@ -28,7 +28,7 @@ smoothing_enabled = true
 position = Vector2( 490, 505 )
 
 [node name="Rock" parent="YSort" instance=ExtResource( 6 )]
-position = Vector2( 803, 499 )
+position = Vector2( 896, 494 )
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 

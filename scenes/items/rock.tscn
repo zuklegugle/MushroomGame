@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/sprites/asset-stone.png" type="Texture" id=1]
-[ext_resource path="res://scripts/item/item_base.gd" type="Script" id=2]
+[ext_resource path="res://scripts/item/item_picked_up_entity.gd" type="Script" id=2]
 
-[node name="Rock" type="Node2D"]
+[node name="Rock" type="Node2D" groups=["Item"]]
 script = ExtResource( 2 )
 item_id = "rock"
 

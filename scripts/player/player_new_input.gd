@@ -109,6 +109,7 @@ func equip_item(item):
 	if !holding_item:
 		if item:
 			_slot.equip(item)
+			PlayerEvents.emit_signal("item_equipped", self, _slot, item)
 
 func _on_interacted(player_data : Dictionary, context : Dictionary):
 	match(context.data.interaction.type):
@@ -159,8 +160,6 @@ func _on_action_performed(action : PlayerInputAction):
 					interact("player_interaction_finished", {
 						"item": _slot.get_item()
 					})
-			"attack":
-				drop_object()
 
 func _on_action_canceled(action : PlayerInputAction):
 	if can_perform_actions:
