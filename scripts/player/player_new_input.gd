@@ -152,30 +152,62 @@ func interact(type = "undefined", data = {}):
 	var context = _interactor.interact(player_data)
 	PlayerEvents.emit_signal("interacted", player_data, context)
 
+func item_use(action_state : String = "started"):
+	var item = _slot.get_item() as ItemBase
+	if item:
+		item.use(self, action_state)
+
+func item_alternate_use(action_state : String = "started"):
+	var item = _slot.get_item() as ItemBase
+	if item:
+		item.use_alternate(self, action_state)
+
+func drop_item():
+	var item = _slot.get_item()
+	if item.has_method("drop"):
+		item.drop(_drop_position.global_position)
+
+
 func _on_action_performed(action : PlayerInputAction):
 	if can_perform_actions:
 		match(action.action_name):
-			"use":
+			"interact":
 				if _interactor.has_avaible_interaction():
 					interact("player_interaction_finished", {
 						"item": _slot.get_item()
 					})
+			"use":
+				item_use("performed")
+			"use_alternate":
+				item_alternate_use("performed")
+			"drop":
+				drop_item()
 
 func _on_action_canceled(action : PlayerInputAction):
 	if can_perform_actions:
-		if action.action_name == "use":
-			if _interactor.has_avaible_interaction():
-				interact("player_interaction_canceled", {
-					"item": _slot.get_item()
-				})
+		match(action.action_name):
+			"interact":
+				if _interactor.has_avaible_interaction():
+					interact("player_interaction_canceled", {
+						"item": _slot.get_item()
+					})
+			"use":
+				item_use("canceled")
+			"use_alternate":
+				item_alternate_use("performed")
 
 func _on_action_held_down(action : PlayerInputAction):
 	pass
 
 func _on_action_started(action : PlayerInputAction):
 	if can_perform_actions:
-		if action.action_name == "use":
-			if _interactor.has_avaible_interaction():
-				interact("player_interaction_started", {
-					"item": _slot.get_item()
-				})
+		match(action.action_name):
+			"interact":
+				if _interactor.has_avaible_interaction():
+					interact("player_interaction_started", {
+						"item": _slot.get_item()
+					})
+			"use":
+				item_use("started")
+			"use_alternate":
+				item_alternate_use("performed")

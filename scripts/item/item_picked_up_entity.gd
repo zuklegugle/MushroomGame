@@ -1,32 +1,30 @@
 class_name ItemPickedUpEntity extends ItemBase
 
-var entity_id : String
-var entity_metadata : Dictionary
+signal dropped(item, node)
 
-func drop():
-	var entity = Game.spawn_entity(entity_id, global_position, entity_metadata)
+# public methods
+func drop(position : Vector2):
+	var entity = Game.spawn_entity(metadata.entity_id, position, metadata.entity_metadata)
+	print("DEBUD:", entity.metadata)
+	emit_signal("dropped", self, entity)
+
+# callbacks
+func _ready():
+	connect("dropped", self, "_on_dropped")
+
+# private methods
+# overrides
+
+# signal callbacks
+func _on_dropped(item, node):
 	destroy()
 
-func _ready():
-	PlayerEvents.connect("action_performed", self, "_on_item_drop")
-
-func _on_create(_data):
-	var id = _data.get("entity_id")
-	var meta = _data.get("entity_metadata")
-	
-	if !meta:
-		meta = {}
-	
-	entity_id = id
-	entity_metadata = meta.duplicate()
-	print("PICKED UP ENTITY: ",{
-		"entity_id": entity_id,
-		"entity_metadata": entity_metadata
-	})
-	
-func _on_item_drop(player, action_name):
-	match(action_name):
-		"attack":
-			print("ITEM SHOULD BE DROPPED NOW")
-			drop()
-			destroy()
+func _on_use_started(user):
+	var entity = Game.spawn_entity(metadata.entity_id, user.global_position, metadata.entity_metadata)
+	print(entity)
+	if entity:
+		entity._physics_position = Vector3(user.global_position.x, (global_position.y - user.global_position.y), user.global_position.y)
+		entity.apply_force(Vector3(500 * user._direction,-400,0))
+		destroy()
+		return true
+	return false

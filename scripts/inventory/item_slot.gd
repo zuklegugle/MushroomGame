@@ -30,6 +30,7 @@ func unslot() -> ItemBase:
 		_item = null
 		emit_signal("item_unslotted", _current_item)
 		print("item unslotted")
+		_current_item.disconnect("destroyed", self, "_on_item_destroyed")
 		return _current_item
 	else:
 		push_warning("Slot is empty")
@@ -44,5 +45,4 @@ func get_item_data() -> ItemData:
 # SIGNAL CALLBACKS
 func _on_item_destroyed(item):
 	unslot()
-	item.disconnect("destroyed", self, "_on_item_destroyed")
 	print("ITEM IN SLOT WAS DESTROYED")

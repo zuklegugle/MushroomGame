@@ -262,8 +262,17 @@ wait_time = 0.2
 [node name="PlayerInputManager" type="Node" parent="."]
 script = ExtResource( 10 )
 
+[node name="Interact" parent="PlayerInputManager" instance=ExtResource( 11 )]
+action_name = "interact"
+
 [node name="Use" parent="PlayerInputManager" instance=ExtResource( 11 )]
 action_name = "use"
+
+[node name="AlternateUse" parent="PlayerInputManager" instance=ExtResource( 11 )]
+action_name = "use_alternate"
+
+[node name="Drop" parent="PlayerInputManager" instance=ExtResource( 11 )]
+action_name = "drop"
 
 [node name="Attack" parent="PlayerInputManager" instance=ExtResource( 11 )]
 action_name = "attack"
@@ -271,10 +280,22 @@ action_name = "attack"
 [connection signal="item_slotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_slotted"]
 [connection signal="item_unslotted" from="HeldItemSlot" to="." method="_on_HeldItemSlot_item_unslotted"]
 [connection signal="timeout" from="ActionCooldown" to="." method="_on_ActionCooldown_timeout"]
+[connection signal="canceled" from="PlayerInputManager/Interact" to="." method="_on_action_canceled"]
+[connection signal="held_down" from="PlayerInputManager/Interact" to="." method="_on_action_held_down"]
+[connection signal="performed" from="PlayerInputManager/Interact" to="." method="_on_action_performed"]
+[connection signal="started" from="PlayerInputManager/Interact" to="." method="_on_action_started"]
 [connection signal="canceled" from="PlayerInputManager/Use" to="." method="_on_action_canceled"]
 [connection signal="held_down" from="PlayerInputManager/Use" to="." method="_on_action_held_down"]
 [connection signal="performed" from="PlayerInputManager/Use" to="." method="_on_action_performed"]
 [connection signal="started" from="PlayerInputManager/Use" to="." method="_on_action_started"]
+[connection signal="canceled" from="PlayerInputManager/AlternateUse" to="." method="_on_action_canceled"]
+[connection signal="held_down" from="PlayerInputManager/AlternateUse" to="." method="_on_action_held_down"]
+[connection signal="performed" from="PlayerInputManager/AlternateUse" to="." method="_on_action_performed"]
+[connection signal="started" from="PlayerInputManager/AlternateUse" to="." method="_on_action_started"]
+[connection signal="canceled" from="PlayerInputManager/Drop" to="." method="_on_action_canceled"]
+[connection signal="held_down" from="PlayerInputManager/Drop" to="." method="_on_action_held_down"]
+[connection signal="performed" from="PlayerInputManager/Drop" to="." method="_on_action_performed"]
+[connection signal="started" from="PlayerInputManager/Drop" to="." method="_on_action_started"]
 [connection signal="canceled" from="PlayerInputManager/Attack" to="." method="_on_action_canceled"]
 [connection signal="held_down" from="PlayerInputManager/Attack" to="." method="_on_action_held_down"]
 [connection signal="performed" from="PlayerInputManager/Attack" to="." method="_on_action_performed"]
