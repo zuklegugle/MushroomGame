@@ -19,14 +19,21 @@ func _ready():
 		slot.slot(item)
 		metadata.stored_item = {
 			"item_id" : item.item_id,
-			"metadata" : item.metadata
+			"metadata" : item.metadata.duplicate()
 		}
 		print("ITEM STORED: ", metadata["stored_item"])
+
+func _to_metadata():
+	var meta = ._to_metadata()
+	var stored_item = slot.get_item()
+	if stored_item:
+		meta.stored_item = stored_item.to_metadata()
+	return meta
 
 func _on_item_stored(node, item):
 	metadata.stored_item = {
 			"item_id" : item.item_id,
-			"metadata" : item.metadata
+			"metadata" : item.metadata.duplicate()
 		}
 	print("ITEM STORED: ", metadata["stored_item"])
 

@@ -197,7 +197,11 @@ func _on_action_canceled(action : PlayerInputAction):
 				item_alternate_use("performed")
 
 func _on_action_held_down(action : PlayerInputAction):
-	pass
+	match(action.action_name):
+			"use":
+				print("holding use")
+			"use_alternate":
+				print("holding alternate use")
 
 func _on_action_started(action : PlayerInputAction):
 	if can_perform_actions:

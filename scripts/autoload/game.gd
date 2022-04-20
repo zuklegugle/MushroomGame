@@ -5,7 +5,9 @@ var _current_player : Player
 
 func _ready():
 	current_world = get_tree().current_scene
-	_current_player = get_tree().get_nodes_in_group("Player")[0]
+	var players = get_tree().get_nodes_in_group("Player")
+	if !players.empty():
+		_current_player = players[0]
 
 func get_current_player():
 	return _current_player

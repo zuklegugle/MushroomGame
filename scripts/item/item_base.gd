@@ -18,12 +18,16 @@ func _ready():
 func create(_data):
 	_on_create(_data)
 	emit_signal("created", self)
+	print("META TEST: ", to_metadata())
 	return self
 
 func destroy():
 	_on_destroy()
 	emit_signal("destroyed", self)
 	queue_free()
+
+func to_metadata() -> Dictionary:
+	return _to_metadata()
 
 func use(user, action_state = "started"):
 	match(action_state):
@@ -54,11 +58,17 @@ func _apply_metadata(_data):
 	pass
 
 # overrides
-func _on_create(_data):
+func _on_create(_data = {}):
 	return _data
 
 func _on_destroy():
 	pass
+
+func _to_metadata() -> Dictionary:
+	var meta = {
+		"item_id": item_id
+	}
+	return meta
 
 func _on_use_started(user) -> bool:
 	return true

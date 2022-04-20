@@ -18,9 +18,6 @@ func _on_player_interaction_started(player_data):
 	else:
 	# player is holding an item
 		var item = player_data.data.item as ItemBase
-		# not allow to store containers
-		if item.is_in_group("Container"):
-			return data
 		# item stored successfully
 		if store_item(item):
 			return {
@@ -54,13 +51,16 @@ func _on_player_interaction_finished(player_data):
 
 func store_item(item : ItemBase):
 	if !_item_slot.get_item():
-		var slot = item.get_parent() as ItemSlot
-		slot.unslot()
-		item.get_parent().remove_child(item)
-		_item_slot.add_child(item)
-		_item_slot.slot(item)
-		emit_signal("item_stored", self, item)
-		return true
+		if !item.is_in_group("Container"):
+			var slot = item.get_parent() as ItemSlot
+			slot.unslot()
+			item.get_parent().remove_child(item)
+			_item_slot.add_child(item)
+			_item_slot.slot(item)
+			emit_signal("item_stored", self, item)
+			return true
+		else:
+			return false
 	else:
 		return false
 
@@ -71,7 +71,7 @@ func take_item():
 		emit_signal("item_taken", self, item)
 		return item
 
-func create_item() -> ItemBase:
+func create_item(data = {}) -> ItemBase:
 	var item = .create_item() as ItemBase
 	var item_in_slot = _item_slot.get_item() as ItemBase
 	if item:
