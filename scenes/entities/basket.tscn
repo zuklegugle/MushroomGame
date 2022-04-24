@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/interaction/pickup_item_container.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/basket-split-sheet.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=3]
+[ext_resource path="res://scripts/inventory/item_slot.gd" type="Script" id=4]
+[ext_resource path="res://scripts/fake_height/fake_height.gd" type="Script" id=5]
+[ext_resource path="res://scripts/entity/objects/basket.gd" type="Script" id=6]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 7.0
+height = 36.0
+
+[node name="Basket" type="KinematicBody2D" groups=["Container", "Entity", "Interactable"]]
+collision_layer = 12
+collision_mask = 0
+script = ExtResource( 6 )
+entity_id = "basket"
+_body_mass = 1.0
+_body_vertical_bounce = 0.5
+_body_horizontal_bounce = 0.8
+_body_bounce_threshold = 400
+_body_gravity_strength = Vector3( 0, 1000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Shadow" type="Sprite" parent="."]
+position = Vector2( 9.53674e-07, 0 )
+scale = Vector2( 3.57143, 2 )
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, -16.116 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+hframes = 2
+
+[node name="FakeHeight" type="Node" parent="."]
+script = ExtResource( 5 )
+target = NodePath("../YSort")
+max_height = 9999.0
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Sprite3" type="Sprite" parent="YSort"]
+position = Vector2( 0, -18.951 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, 1.419 )
+hframes = 2
+
+[node name="Sprite2" type="Sprite" parent="YSort"]
+position = Vector2( 0, -16.116 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+hframes = 2
+frame = 1
+
+[node name="ItemSlot" type="Position2D" parent="YSort"]
+position = Vector2( 0, -18.935 )
+script = ExtResource( 4 )
+
+[node name="PickupItemContainer" type="Node" parent="."]
+script = ExtResource( 1 )
+_item_id = "basket"
+_item_slot = NodePath("../YSort/ItemSlot")
+
+[connection signal="item_stored" from="PickupItemContainer" to="." method="_on_item_stored"]
+[connection signal="item_taken" from="PickupItemContainer" to="." method="_on_item_taken"]

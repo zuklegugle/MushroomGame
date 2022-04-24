@@ -125,16 +125,18 @@ func _process(delta):
 #		slotted_entity.on_drop()
 
 func drop_object():
-	if _slot.get_item():
-		var object = _slot.unequip() as ObjectBase
-		object.global_position = _drop_position.global_position
+	pass
+#	if _slot.get_item():
+#		var object = _slot.unequip() as ObjectBase
+#		object.global_position = _drop_position.global_position
 
 func throw():
-	if _slot.get_item():
-		var object = _slot.unequip() as ObjectBase
-		object.global_position = Vector2(global_position.x + 40 * _direction, global_position.y)
-		object._physics_position = Vector3(global_position.x, -60 , global_position.y)
-		object.apply_force(Vector3(500 * _direction,-400,0))
+	pass
+#	if _slot.get_item():
+#		var object = _slot.unequip() as ObjectBase
+#		object.global_position = Vector2(global_position.x + 40 * _direction, global_position.y)
+#		object._physics_position = Vector3(global_position.x, -60 , global_position.y)
+#		object.apply_force(Vector3(500 * _direction,-400,0))
 
 func _on_interacted(interactor, node):
 	pass

@@ -1,15 +1,16 @@
 extends Node
 
-class_name AutoloadGame
-
-export(Resource) var item_database
-export(Resource) var object_database
-
 var current_world : MapBase
+var _current_player : Player
 
 func _ready():
 	current_world = get_tree().current_scene
-	object_database.print_data()
+	var players = get_tree().get_nodes_in_group("Player")
+	if !players.empty():
+		_current_player = players[0]
+
+func get_current_player():
+	return _current_player
 
 func spawn_scene(position : Vector2, scene : PackedScene):
 	if current_world:
@@ -23,29 +24,23 @@ func spawn_scene(position : Vector2, scene : PackedScene):
 	else:
 		push_warning("no current world")
 
-func deactivate(node):
-	node.get_parent().remove_child(node)
-	return node
-
-func reactivate(node):
-	current_world.base_node.add_child(node)
-
-func spawn_entity_object():
-	print("Root node: ", get_tree().current_scene)
-
-func spawn_object(position : Vector2, object : ObjectData):
-	var database = object_database.database as Dictionary
-	if database.has(object):
-		return spawn_scene(position, database[object])
-
-func spawn_item(item : ItemData) -> ItemBase:
-	if item:
-		var database = item_database.database as Dictionary
-		if database.has(item):
-			var item_instance = database[item].instance() as ItemBase
-			return item_instance
-		else:
-			return null
+func spawn_entity(entity_id : String, position : Vector2, metadata : Dictionary = {}) -> EntityBase:
+	var data = EntityRegistry.get_entity_data(entity_id) as EntityData
+	if data:
+		var entity_instance = spawn_scene(position, data.entity_scene)
+		if !metadata.empty():
+			entity_instance.metadata = metadata.duplicate()
+			entity_instance.create(metadata)
+		return entity_instance
 	else:
 		return null
-		 
+
+func spawn_item(item_id : String, metadata : Dictionary = {}) -> ItemBase:
+	var data = ItemRegistry.get_item_data(item_id) as ItemData
+	if data:
+		var item_instance = data.item_scene.instance()
+		if !metadata.empty():
+			item_instance.metadata = metadata.duplicate()
+		return item_instance
+	else:
+		return null 

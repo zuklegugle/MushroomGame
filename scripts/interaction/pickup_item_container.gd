@@ -7,19 +7,60 @@ export(NodePath) onready var _item_slot = get_node_or_null(_item_slot) as ItemSl
 signal item_stored(node, item)
 signal item_taken(node, item)
 
-func _init():
-	_add_interaction("Store", funcref(self, "_on_item_store"))
-	_add_interaction("Take", funcref(self, "_on_item_take"))
+func _on_player_interaction_started(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		if _item_slot.get_item():
+			return data
+		data = ._on_player_interaction_started(player_data)
+		return data
+	else:
+	# player is holding an item
+		var item = player_data.data.item as ItemBase
+		# item stored successfully
+		if store_item(item):
+			return {
+				"type": "item_stored",
+				"stored_item" : _item_slot.get_item()
+			}
+		# failed to store item
+		else:
+			return data
+
+func _on_player_interaction_canceled(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		data = ._on_player_interaction_started(player_data)
+		return data
+	else:
+		return data
+
+func _on_player_interaction_finished(player_data):
+	var data = {"type": "undefined"}
+	# player is not holding an item
+	if !player_data.data.item:
+		var _item = take_item()
+		if _item:
+			return {
+				"type": "item_taken",
+				"item": _item
+			}
+	return data
 
 func store_item(item : ItemBase):
 	if !_item_slot.get_item():
-		var slot = item.get_parent() as ItemSlot
-		slot.unslot()
-		item.get_parent().remove_child(item)
-		_item_slot.add_child(item)
-		_item_slot.slot(item)
-		emit_signal("item_stored", self, item)
-		return true
+		if !item.is_in_group("Container"):
+			var slot = item.get_parent() as ItemSlot
+			slot.unslot()
+			item.get_parent().remove_child(item)
+			_item_slot.add_child(item)
+			_item_slot.slot(item)
+			emit_signal("item_stored", self, item)
+			return true
+		else:
+			return false
 	else:
 		return false
 
@@ -30,7 +71,7 @@ func take_item():
 		emit_signal("item_taken", self, item)
 		return item
 
-func create_item() -> ItemBase:
+func create_item(data = {}) -> ItemBase:
 	var item = .create_item() as ItemBase
 	var item_in_slot = _item_slot.get_item() as ItemBase
 	if item:
@@ -38,8 +79,7 @@ func create_item() -> ItemBase:
 			var _slot = item.find_node("ItemSlot")
 			print(_slot)
 			if _slot:
-				var data = item_in_slot.item_data
-				var item_inside = Game.spawn_item(data)
+				var item_inside = Game.spawn_item(item_in_slot.item_id)
 				_slot.slot(item_inside)
 				_slot.add_child(item_inside)
 				print("created: ", item_inside)
@@ -60,20 +100,3 @@ func find_item_slot(node):
 		if child is ItemSlot:
 			return child
 	return {}
-
-func _on_item_store(_node, _interaction_data):
-	if _interaction_data:
-		var item = _interaction_data.item as ItemBase
-		if item.is_in_group("Container"):
-			return null
-		if store_item(item):
-			return {
-				"stored_item" : _item_slot.get_item()
-			}
-	return {}
-
-func _on_item_take(_node, _interaction_data):
-	var data = {
-		"item" : take_item()
-	}
-	return data

@@ -1,38 +1,43 @@
 class_name Interactable extends Node
 
-export(String) var default_interaction = "Interact"
+signal interacted(interactable, data)
 
-signal interacted(node)
+# public methods
 
-var _hint = "Interact"
-
-var avaible_interactions = {
-	"Interact" : funcref(self, "_on_interact")
-}
-func _ready():
-	print(avaible_interactions)
-
-func interact(_node, interaction, interaction_data) -> Node:
-	print("interacted with interactable")
-	emit_signal("interacted", _node)
-	if interaction != "":
-		var data = avaible_interactions[interaction].call_func(_node, interaction_data)
-		var context = InteractionContext.new(interaction, _node, self, data)
-		print(context.data)
-		return context
-	else:
-		var data = avaible_interactions[default_interaction].call_func(_node, interaction_data)
-		var context = InteractionContext.new(default_interaction, _node, self, data)
-		print(context.data)
-		return context
-
-func get_hint() -> String:
-	return avaible_interactions[default_interaction]
-
-func _add_interaction(name : String, method : FuncRef):
-	if !avaible_interactions.has(name):
-		avaible_interactions[name] = method
+func interact(interactor, data):
+	var interaction_data = {}
 	
-func _on_interact(_node, _interaction_data):
-	print("called Interact function")
-	return _node
+	match(data.type):
+		"player_interaction_started":
+			interaction_data = _on_player_interaction_started(data)
+		"player_interaction_canceled":
+			interaction_data = _on_player_interaction_canceled(data)
+		"player_interaction_finished":
+			interaction_data = _on_player_interaction_finished(data)
+	
+	data.interaction = interaction_data
+	interaction_data = null
+	emit_signal("interacted", self, data)
+	return {
+		"interactor": interactor,
+		"interactable": self,
+		"data": data
+	}
+
+func get_context_hint() -> String:
+	return "Interact"
+
+# private methods and overrides
+
+func _on_player_interaction_started(_data) -> Dictionary:
+	#print(str(self," registered player interaction started"))
+	return {"type": "interact"}
+
+func _on_player_interaction_canceled(_data) -> Dictionary:
+	#print(str(self," registered player interaction canceled"))
+	return {"type": "interact"}
+
+func _on_player_interaction_finished(_data) -> Dictionary:
+	#print(str(self," registered player interaction finished"))
+	return {"type": "interact"}
+	

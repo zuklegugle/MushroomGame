@@ -1,9 +1,10 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://scripts/data/item_data.gd" type="Script" id=1]
-[ext_resource path="res://scenes/items/ItemBase.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/items/rock.tscn" type="PackedScene" id=2]
 
 [resource]
 script = ExtResource( 1 )
 display_name = "Rock"
-scene = ExtResource( 2 )
+category = "Object"
+item_scene = ExtResource( 2 )

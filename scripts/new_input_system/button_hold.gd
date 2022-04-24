@@ -33,14 +33,17 @@ func _start():
 	emit_signal("started", self)
 	timer.start(hold_time)
 	hold_duration = 0.0
+	PlayerEvents.emit_signal("action_started", Game.get_current_player(), action_name)
 
 func _cancel():
 	timer.stop()
 	started = false
 	performed = false
 	emit_signal("canceled", self)
+	PlayerEvents.emit_signal("action_canceled", Game.get_current_player(), action_name)
 
 func _on_timer_timeout():
 	timer.stop()
 	emit_signal("performed", self)
 	performed = true
+	PlayerEvents.emit_signal("action_performed", Game.get_current_player(), action_name)
