@@ -1,6 +1,6 @@
-extends KinematicBody2D
+extends EntityBase
 
-class_name Player
+class_name EntityPlayer
 
 export(NodePath) onready var _animation_player = get_node_or_null(_animation_player) as AnimationPlayer
 export(NodePath) onready var _animation_tree = get_node(_animation_tree)
@@ -39,6 +39,16 @@ func _ready():
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
 	
 	PlayerEvents.connect("interacted", self, "_on_interacted")
+	
+	var input_manager = Player.input_manager
+	var actions = input_manager.get_actions()
+	print(actions)
+	for action in actions:
+		print("action detected", action)
+		actions[action].connect("started", self, "_on_action_started")
+		actions[action].connect("canceled", self, "_on_action_canceled")
+		actions[action].connect("performed", self, "_on_action_performed")
+		actions[action].connect("held_down", self, "_on_action_held_down")
 
 func _input(event):
 	var _horizontal_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")

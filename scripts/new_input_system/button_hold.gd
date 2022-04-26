@@ -2,6 +2,7 @@ extends PlayerInputAction
 
 export(NodePath) onready var timer = get_node(timer) as Timer
 export(float) var hold_time = .3
+export(bool) var enabled = true
 
 signal held_down(action)
 
