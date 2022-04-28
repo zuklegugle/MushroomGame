@@ -1,11 +1,11 @@
 extends Node
 
 var current_world : MapBase
-var _current_player : Player
+var _current_player : EntityPlayer
 
 func _ready():
 	current_world = get_tree().current_scene
-	var players = get_tree().get_nodes_in_group("Player")
+	var players = get_tree().get_nodes_in_group("EntityPlayer")
 	if !players.empty():
 		_current_player = players[0]
 
