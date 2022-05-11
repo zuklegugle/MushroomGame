@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/sprites/asset-stone.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player-shadow.png" type="Texture" id=2]
-[ext_resource path="res://scripts/interaction/interactable_pickup.gd" type="Script" id=3]
+[ext_resource path="res://scripts/interaction/interactable.gd" type="Script" id=3]
 [ext_resource path="res://scripts/fake_height/fake_height.gd" type="Script" id=4]
-[ext_resource path="res://scripts/entity/entity_object.gd" type="Script" id=5]
+[ext_resource path="res://scripts/entity/objects/prop.gd" type="Script" id=5]
+[ext_resource path="res://scripts/rendering/entity_renderer.gd" type="Script" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 7.0
@@ -14,31 +15,32 @@ height = 36.0
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 5 )
-entity_id = "rock"
-_body_mass = 1.0
-_body_vertical_bounce = 0.5
-_body_horizontal_bounce = 0.8
-_body_bounce_threshold = 400
-_body_gravity_strength = Vector3( 0, 1000, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource( 1 )
 
-[node name="Shadow" type="Sprite" parent="."]
+[node name="EntityRenderer" type="Node2D" parent="."]
+script = ExtResource( 6 )
+sprite = NodePath("Sprite")
+shadow = NodePath("Shadow")
+
+[node name="Shadow" type="Sprite" parent="EntityRenderer"]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite" type="Sprite" parent="EntityRenderer"]
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 offset = Vector2( 0, -5.666 )
 
 [node name="FakeHeight" type="Node" parent="."]
 script = ExtResource( 4 )
-target = NodePath("../Sprite")
+target = NodePath("../EntityRenderer/Sprite")
 max_height = 9999.0
 
-[node name="Pickup" type="Node" parent="."]
+[node name="Interactable" type="Node" parent="."]
 script = ExtResource( 3 )
-_item_id = "rock"
+target = NodePath("..")
+
+[connection signal="interacted" from="Interactable" to="." method="_on_interacted"]

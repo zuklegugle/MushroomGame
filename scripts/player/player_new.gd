@@ -1,24 +1,28 @@
-extends EntityBase
+class_name PlayerEntity extends Entity
 
-class_name EntityPlayer
+export(float) var speed = 200.0
 
-export(NodePath) onready var _animation_player = get_node_or_null(_animation_player) as AnimationPlayer
-export(NodePath) onready var _animation_tree = get_node(_animation_tree)
+onready var _animation_player = $AnimationPlayer as AnimationPlayer
+onready var _animation_tree = $AnimationTree as AnimationTree
+onready var _rendering = $Smoothing2D/Rendering
+onready var _interactor = $Interactor
+onready var _drop_position = $DropPosition
+onready var _entity_slot = $Smoothing2D/EntitySlot as EntitySlot
 
-export(NodePath) var _interaction_area
-
-
-export(float) var speed = 40.0
+enum Direction {
+	NORTH = -1,
+	SOUTH = 1,
+	WEST = 1,
+	EAST = -1
+}
 
 var _input_vector = Vector2.ZERO
 var _last_input_vector = Vector2.ZERO
 var _movement_vector = Vector2.ZERO
 
-var _sprite : Sprite
+var _facing = Direction.EAST
 var _direction = 1
-var _interactor : Interactor
-var _slot : HeldItemSlot
-var _drop_position
+var _slot
 var _cooldown_timer : Timer
 
 var can_perform_actions = true
@@ -26,19 +30,11 @@ var can_perform_actions = true
 var holding_item := false
 
 func _ready():
-	_interaction_area = get_node_or_null(_interaction_area)
-	_sprite = $Sprite
-	_interactor = $Interactor
-	_slot = $HeldItemSlot
-	_drop_position = $DropPosition
+	_slot = $Smoothing2D/EntitySlot
 	_cooldown_timer = $ActionCooldown
-	#_player_interaction = $InteractionRange as PlayerInteractionRange
-	#_object_slot = $ObjectSlot
 	
 	_animation_tree["parameters/conditions/isHoldingItem"] = false
 	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
-	
-	PlayerEvents.connect("interacted", self, "_on_interacted")
 	
 	var input_manager = Player.input_manager
 	var actions = input_manager.get_actions()
@@ -59,38 +55,23 @@ func _input(event):
 	if _input_vector != Vector2.ZERO:
 		_animation_tree["parameters/conditions/isRunning"] = true
 		_animation_tree["parameters/conditions/isNotRunning"] = false
-		#_animation_tree.get("parameters/playback").travel("Run")
 		if _input_vector.x != 0.0:
 			_last_input_vector.x = _input_vector.x
 	else:
 		_animation_tree["parameters/conditions/isNotRunning"] = true
 		_animation_tree["parameters/conditions/isRunning"] = false
-		#_animation_tree.get("parameters/playback").travel("Idle")
 	
-	if Input.is_action_just_pressed("ui_accept"):
-		#if _equipped_object:
-		#	unequip()
-#		if _slot.slotted_entity:
-#			_slot.drop()
-		if !_interactor.has_avaible_interaction():
-			pass
-			#slot.unequip()
-		else:
-			pass
-			#_interactor.interact()
-		
-		#_object_slot.create_and_equip_from_index()
-	
-	if _sprite:
-		if _last_input_vector.x > 0:
-			_sprite.flip_h = true
-			_direction = 1
-		else:
-			_sprite.flip_h = false
-			_direction = -1
+	if _last_input_vector.x > 0:
+		_rendering.flipped = true
+		_direction = Direction.EAST
+	else:
+		_rendering.flipped = false
+		_direction = Direction.WEST
 	
 func _process(delta):
 	_movement_vector = _input_vector
+
+func _physics_process(delta):
 	move_and_slide(_movement_vector * speed)
 
 
@@ -121,28 +102,6 @@ func equip_item(item):
 			_slot.equip(item)
 			PlayerEvents.emit_signal("item_equipped", self, _slot, item)
 
-func _on_interacted(player_data : Dictionary, context : Dictionary):
-	match(context.data.interaction.type):
-		"pickup":
-			equip_item(context.data.interaction.item)
-			_action_cooldown_start()
-		"item_stored":
-			_action_cooldown_start()
-		"item_taken":
-			equip_item(context.data.interaction.item)
-			_action_cooldown_start()
-
-func _on_HeldItemSlot_item_slotted(item):
-	holding_item = true
-	_animation_tree["parameters/conditions/isHoldingItem"] = true
-	_animation_tree["parameters/conditions/isNotHoldingItem"] = false
-
-
-func _on_HeldItemSlot_item_unslotted(item):
-	holding_item = false
-	_animation_tree["parameters/conditions/isHoldingItem"] = false
-	_animation_tree["parameters/conditions/isNotHoldingItem"] = true
-
 
 func _action_cooldown_start():
 	can_perform_actions = false
@@ -153,14 +112,11 @@ func _on_ActionCooldown_timeout():
 	can_perform_actions = true
 	print("cooldown off")
 
-func interact(type = "undefined", data = {}):
-	var player_data = {
-		"player": self,
-		"type": type,
-		"data": data
-	}
-	var context = _interactor.interact()
-	PlayerEvents.emit_signal("interacted", player_data, context)
+func interact(state):
+	var interactable = _interactor.interact(state) as Interactable
+	if interactable:
+		var interaction = Interaction.new(self, interactable.target, state)
+		PlayerEvents.emit_signal("interacted", interaction)
 
 func item_use(action_state : String = "started"):
 	var item = _slot.get_item() as ItemBase
@@ -172,35 +128,32 @@ func item_alternate_use(action_state : String = "started"):
 	if item:
 		item.use_alternate(self, action_state)
 
-func drop_item():
-	var item = _slot.get_item()
-	if item.has_method("drop"):
-		item.drop(_drop_position.global_position)
+func drop_entity():
+	var entity_in_slot = _entity_slot.get_entity() as Entity
+	if entity_in_slot:
+		var pickup = Pickup.find(entity_in_slot)
 
+func pickup_entity(entity : Entity):
+	if entity:
+		_entity_slot.add_entity(entity)
 
 func _on_action_performed(action : PlayerInputAction):
 	if can_perform_actions:
 		match(action.action_name):
 			"interact":
-				if _interactor.has_avaible_interaction():
-					interact("player_interaction_finished", {
-						"item": _slot.get_item()
-					})
+				interact(Interaction.PERFORMED)
 			"use":
 				item_use("performed")
 			"use_alternate":
 				item_alternate_use("performed")
 			"drop":
-				drop_item()
+				drop_entity()
 
 func _on_action_canceled(action : PlayerInputAction):
 	if can_perform_actions:
 		match(action.action_name):
 			"interact":
-				if _interactor.has_avaible_interaction():
-					interact("player_interaction_canceled", {
-						"item": _slot.get_item()
-					})
+				interact(Interaction.CANCELED)
 			"use":
 				item_use("canceled")
 			"use_alternate":
@@ -214,22 +167,23 @@ func _on_action_held_down(action : PlayerInputAction):
 				print("holding alternate use")
 
 func _on_action_started(action : PlayerInputAction):
-	var holding_item = true
-	var has_inv = false
-	var flags = 0
-	if holding_item:
-		flags = Flags.set_flag(flags, Interaction.ContextFlags.HOLDING_ITEM)
-	print("holding item? ", Flags.has_flag(flags, Interaction.ContextFlags.HOLDING_ITEM))
-	flags = Flags.unset_flag(flags, Interaction.ContextFlags.HOLDING_ITEM)
-	print("holding item? ", Flags.has_flag(flags, Interaction.ContextFlags.HOLDING_ITEM))
 	if can_perform_actions:
 		match(action.action_name):
 			"interact":
-				if _interactor.has_avaible_interaction():
-					interact("player_interaction_started", {
-						"item": _slot.get_item()
-					})
+				interact(Interaction.STARTED)
 			"use":
 				item_use("started")
 			"use_alternate":
 				item_alternate_use("performed")
+
+
+func _on_slot_entity_added(slot, entity):
+	holding_item = true
+	_animation_tree["parameters/conditions/isHoldingItem"] = true
+	_animation_tree["parameters/conditions/isNotHoldingItem"] = false
+
+
+func _on_slot_entity_removed(slot, entity):
+	holding_item = false
+	_animation_tree["parameters/conditions/isHoldingItem"] = false
+	_animation_tree["parameters/conditions/isNotHoldingItem"] = true

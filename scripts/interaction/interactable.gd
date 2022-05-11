@@ -1,43 +1,32 @@
 class_name Interactable extends Node
 
-signal interacted(interactable, data)
+export(NodePath) onready var target = get_node_or_null(target)
+
+signal interacted(interactor, interactable, state)
 
 # public methods
-
-func interact(interactor, data):
-	var interaction_data = {}
+func interact(interactor, state):
+	var target = interactor.target
+	match(state):
+		Interaction.STARTED:
+			_on_interaction_started(interactor)
+		Interaction.CANCELED:
+			_on_interaction_canceled(interactor)
+		Interaction.PERFORMED:
+			_on_interaction_finished(interactor)
 	
-	match(data.type):
-		"player_interaction_started":
-			interaction_data = _on_player_interaction_started(data)
-		"player_interaction_canceled":
-			interaction_data = _on_player_interaction_canceled(data)
-		"player_interaction_finished":
-			interaction_data = _on_player_interaction_finished(data)
-	
-	data.interaction = interaction_data
-	interaction_data = null
-	emit_signal("interacted", self, data)
-	return {
-		"interactor": interactor,
-		"interactable": self,
-		"data": data
-	}
+	emit_signal("interacted", interactor, self, state)
 
 func get_context_hint() -> String:
 	return "Interact"
 
 # private methods and overrides
+func _on_interaction_started(_interactor):
+	pass
 
-func _on_player_interaction_started(_data) -> Dictionary:
-	#print(str(self," registered player interaction started"))
-	return {"type": "interact"}
+func _on_interaction_canceled(_interactor):
+	pass
 
-func _on_player_interaction_canceled(_data) -> Dictionary:
-	#print(str(self," registered player interaction canceled"))
-	return {"type": "interact"}
-
-func _on_player_interaction_finished(_data) -> Dictionary:
-	#print(str(self," registered player interaction finished"))
-	return {"type": "interact"}
+func _on_interaction_finished(_interactor):
+	pass
 	

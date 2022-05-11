@@ -2,27 +2,21 @@ extends Node2D
 
 class_name Interactor
 
-export(Resource) var _interactor_data
+export(NodePath) onready var target = get_node_or_null(target)
 export(bool) var _debug : bool
 
-signal interacted(context)
+signal interacted(interactor, interactable, state)
 signal interactable_registered(node)
 signal interactable_unregistered(node)
 
 var _interactables_in_range : Array
 
-func interact(data = {
-	"player": null,
-	"type": "undefined",
-	"data": {}
-}):
+func interact(state = Interaction.UNDEFINED):
 	var interactable = _get_closest_interactable() as Interactable
-	var context = null
 	if interactable:
-		context = interactable.interact(self, data)
-		emit_signal("interacted", context)
-		print(context.data)
-	return context
+		interactable.interact(self, state)
+		emit_signal("interacted", self, interactable, state)
+	return interactable
 
 func has_avaible_interaction() -> bool:
 	return !_interactables_in_range.empty()
@@ -32,9 +26,6 @@ func _register_interactable(node) -> int:
 		if !_interactables_in_range.has(node):
 			_interactables_in_range.append(node)
 			emit_signal("interactable_registered", node)
-			# InteractorData resource integration
-			_register_interactor_data(node)
-			# ------------------------------------
 			return _interactables_in_range.size() - 1
 		else:
 			push_warning("tried registering already registered interactable")
@@ -49,9 +40,6 @@ func _unregister_interactable(index : int):
 		if node:
 			_interactables_in_range.remove(index)
 			emit_signal("interactable_registered", node)
-			# InteractorData resource integration
-			_unregister_interactor_data(node)
-			# ------------------------------------
 			return node
 		else:
 			push_warning("tried unregistering non existing interactable")
@@ -59,20 +47,6 @@ func _unregister_interactable(index : int):
 	else:
 			push_warning("invald index")
 			return null
-
-func _register_interactor_data(node):
-	# InteractorData resource integration
-	if _interactor_data:
-		if _interactor_data is InteractorData:
-			_interactor_data.add_avaible_interactable(node)
-	# ------------------------------------
-func _unregister_interactor_data(node):
-	# InteractorData resource integration
-	if _interactor_data:
-		if _interactor_data is InteractorData:
-			_interactor_data.remove_avaible_interactable(node)
-	# ------------------------------------
-
 
 func _get_interactable_from_node(node) -> Interactable:
 	var interactable = node.find_node("Interactable")
@@ -99,6 +73,7 @@ func _find_interactable(node : Node) -> Interactable:
 
 func _on_interactable_enter(body):
 	if body.is_in_group("Interactable"):
+		print("INTERACTABLE")
 		var interactable = _find_interactable(body)
 		var index = _register_interactable(interactable)
 		if index > -1:

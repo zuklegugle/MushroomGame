@@ -12,8 +12,9 @@ func _ready():
 	if _interactor_data:
 		_interactor_data.connect("data_changed", self, "_on_data_changed")
 	var player_nodes = get_tree().get_nodes_in_group("Player")
-	player = player_nodes[0]
-	print("Player found: ", player)
+	if player_nodes:
+		player = player_nodes[0]
+		print("Player found: ", player)
 
 func _exit_tree():
 	if _interactor_data:
